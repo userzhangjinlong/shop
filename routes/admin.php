@@ -19,5 +19,5 @@ Route::group(['middleware' => ['authAdmin']], function (){
     Route::get('/', 'IndexController@index')->name('index');
     Route::get('/index', 'IndexController@index');
     //后台用户
-    Route::get('/logout', 'AuthController@logout')->name('logout');
+    Route::any('/logout', 'AuthController@logout')->name('logout');
 });

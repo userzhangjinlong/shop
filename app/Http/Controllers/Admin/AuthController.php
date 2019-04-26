@@ -38,6 +38,10 @@ class AuthController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function login(Request $request){
         $this->validate($request, [
             $this->username() => 'required|string',
@@ -52,6 +56,16 @@ class AuthController extends Controller
         }else {
             return back()->with('error', '账号或密码错误')->withInput();
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function logout(){
+        if(AuthAdmin::guard('admin')->user()){
+            AuthAdmin::guard('admin')->logout();
+        }
+        return Redirect::to('admin/login');
     }
 
     /**
