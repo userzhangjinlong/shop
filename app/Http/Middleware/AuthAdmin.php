@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class AuthAdmin
+class AuthAdmin extends Auth
 {
     /**
      * Handle an incoming request.
@@ -20,9 +20,8 @@ class AuthAdmin
 
         if (Auth::guard($guard)->guest()) {
             return redirect('admin/login');
-//            return redirect()->guest('admin/login');
         }
-
         return $next($request);
     }
+
 }

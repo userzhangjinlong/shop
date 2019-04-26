@@ -1,7 +1,4 @@
 <?php
-
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | ADMIN Routes
@@ -16,13 +13,11 @@ use Illuminate\Http\Request;
 //Route::middleware('auth:admin')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
-Route::any('/login', 'AuthController@login')->name('login');
-Route::any('/register', 'AuthController@register')->name('register');
+Route::get('/login', 'AuthController@showLoginForm')->name('login');
+Route::post('/login', 'AuthController@login');
 Route::group(['middleware' => ['authAdmin']], function (){
-
     Route::get('/', 'IndexController@index')->name('index');
     Route::get('/index', 'IndexController@index');
-
     //后台用户
     Route::get('/logout', 'AuthController@logout')->name('logout');
 });
