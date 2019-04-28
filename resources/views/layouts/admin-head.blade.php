@@ -29,26 +29,22 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'LAN商城') }}
+                        {{ config('app.name', 'LAN商城管理后台') }}
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
+                    {{--<ul class="nav navbar-nav">--}}
+                        {{--&nbsp;--}}
+                    {{--</ul>--}}
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                        @if(!session()->get('adminId'))
-                            {{--<li><a href="{{ route('login') }}">Login</a></li>--}}
-                            {{--<li><a href="{{ route('register') }}">Register</a></li>--}}
-                        @else
+                        @if(session()->get('adminId'))
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                    {{ session()->get('username') }} <span class="caret"></span>
+                                    {{ session()->get('userName') }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu">
