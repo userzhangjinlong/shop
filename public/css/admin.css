@@ -4,3 +4,32 @@
     background-size:100% 100%;
     overflow: hidden;
 }
+.navbar-header{background:#363279}
+.navbar-default{background:#363279; border-color: #363270;}
+/*pc*/
+/*控制菜单箭头*/
+.nav-header.collapsed > span.glyphicon-chevron-toggle:before {
+    content: "\e114";
+}
+
+.nav-header > span.glyphicon-chevron-toggle:before {
+    content: "\e113";
+}
+.secondmenu a {
+    font-size: 12px;
+    color: #4A515B;
+    text-align: center;
+}
+
+.secondmenu li.active {
+    background-color: #eee;
+    border-color: #428bca;
+}
+.nav-header.collapsed > span.glyphicon-chevron-toggle:before {
+    content: "\e114";
+}
+
+.nav-header > span.glyphicon-chevron-toggle:before {
+    content: "\e113";
+}
+/*pc*/
