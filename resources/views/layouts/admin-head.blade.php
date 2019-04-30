@@ -267,7 +267,7 @@
                             <span class="profile-ava">
                                 <img alt="" src="img/avatar1_small.jpg">
                             </span>
-                        <span class="username">Jenifer Smith</span>
+                        <span class="username">{{ session('userName') }}</span>
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu extended logout">
@@ -305,9 +305,9 @@
             <!-- sidebar menu start-->
             <ul class="sidebar-menu">
                 <li class="active">
-                    <a class="" href="index.html">
+                    <a class="" href="/admin/index">
                         <i class="icon_house_alt"></i>
-                        <span>Dashboard</span>
+                        <span>首页</span>
                     </a>
                 </li>
                 <li class="sub-menu">
