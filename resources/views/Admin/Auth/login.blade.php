@@ -1,69 +1,43 @@
 @extends('layouts.admin-login')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2" style="margin-top: 20%;">
-                <div class="panel panel-default">
-                    <div class="panel-heading">管理员登录</div>
+<div class="container">
 
-                    <div class="panel-body">
-                        <form class="form-horizontal" method="POST" action="{{ route('login') }}">
-                            {{ csrf_field() }}
-
-                            <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
-                                <label for="email" class="col-md-4 control-label">用户名</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
-
-                                    @if ($errors->has('username'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('username') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <label for="password" class="col-md-4 control-label">密码</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" name="password" required>
-
-                                    @if ($errors->has('password'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> 记住我
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-8 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        登录
-                                    </button>
-
-                                    {{--<a class="btn btn-link" href="{{ route('password.request') }}">--}}
-                                        {{--Forgot Your Password?--}}
-                                    {{--</a>--}}
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+    <form class="login-form" method="POST" action="{{ route('login') }}">
+        {{ csrf_field() }}
+        <div class="login-wrap">
+            <p class="login-img"><i class="icon_lock_alt"></i></p>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_profile"></i></span>
+                <input id="email" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
+                @if ($errors->has('username'))
+                    <span class="help-block">
+                    <strong>{{ $errors->first('username') }}</strong>
+                    </span>
+                @endif
             </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                <input id="password" type="password" class="form-control" name="password" required>
+
+                @if ($errors->has('password'))
+                <span class="help-block">
+                <strong>{{ $errors->first('password') }}</strong>
+                </span>
+                @endif
+            </div>
+            <label class="checkbox">
+                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> 记住我
+            </label>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">登录</button>
+        </div>
+    </form>
+    <div class="text-right">
+        <div class="credits">
+            Designed by <a href="https://www.zhangjinlong-blog.cn/">zjl</a>
         </div>
     </div>
+
+</div>
 @endsection
+
