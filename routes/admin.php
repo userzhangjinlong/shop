@@ -16,8 +16,11 @@
 Route::get('/login', 'AuthController@showLoginForm')->name('login');
 Route::post('/login', 'AuthController@login');
 Route::group(['middleware' => ['authAdmin']], function (){
+    //首页
     Route::get('/', 'IndexController@index')->name('index');
     Route::get('/index', 'IndexController@index');
-    //后台用户
+    //退出登录
     Route::any('/logout', 'AuthController@logout')->name('logout');
+    //分类
+    Route::get('/cateAdd', 'CategoryController@cateAdd');
 });
