@@ -50,8 +50,10 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+//            'root' => storage_path('app/public'),
+            'root' => public_path('Uploads'), //设置到public目录下面方便浏览器可访问
+//            'url' => env('APP_URL').'/storage',
+            'url' => '/Uploads',
             'visibility' => 'public',
         ],
 

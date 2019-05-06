@@ -5,7 +5,7 @@
         <section class="wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-file-text-o"></i> Form elements</h3>
+                    <h3 class="page-header"><i class="fa fa-file-text-o"></i> 新增分类</h3>
                     <ol class="breadcrumb">
                         <li><i class="fa fa-home"></i><a href="/admin/">首页</a></li>
                         <li><i class="icon_document_alt"></i>分类添加</li>
@@ -20,29 +20,33 @@
                             新增/编辑 分类
                         </header>
                         <div class="panel-body">
-                            <form role="form" >
+                            <form role="form" method="POST" action="{{ route('cateAdd') }}" enctype="multipart/form-data">
+                                {{ csrf_field() }}
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">分类名称</label>
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="请输入分类名字">
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="请输入分类名字" >
+                                    @if ($errors->has('name'))
+                                        <div class="alert alert-success">
+                                            <a class="close" data-dismiss="alert">×</a>
+                                            <strong>{{ $errors->first('name') }}</strong>
+                                        </div>
+                                    </span>
+                                    @endif
                                 </div>
                                 <select name="pid" class="form-control input-lg m-bot15">
                                     <option value="0">一级分类</option>
                                 </select>
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Password</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                    <label for="exampleInputPassword1">分类描述</label>
+                                    <input type="text" class="form-control" name="description" id="description" placeholder="请填写分类描述">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputFile">File input</label>
-                                    <input type="file" id="exampleInputFile">
-                                    <p class="help-block">Example block-level help text here.</p>
+                                    <label for="exampleInputFile">图标</label>
+                                    <input type="file" name="cateicon" id="cateicon">
+                                    <p class="help-block">请上传分类图标在这儿</p>
                                 </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"> Check me out
-                                    </label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <input type="hidden" name="id" value="{{ $id }}">
+                                <button type="submit" class="btn btn-primary">提交</button>
                             </form>
 
                         </div>
@@ -52,4 +56,7 @@
             <!-- page end-->
         </section>
     </section>
+    <script type="text/javascript">
+
+    </script>
 @endsection
