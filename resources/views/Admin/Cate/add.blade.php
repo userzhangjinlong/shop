@@ -17,7 +17,7 @@
                 <div class="col-lg-12">
                     <section class="panel">
                         <header class="panel-heading">
-                            新增/编辑 分类
+                            新增 分类
                         </header>
                         <div class="panel-body">
                             <form role="form" method="POST" action="{{ route('cateAdd') }}" enctype="multipart/form-data">

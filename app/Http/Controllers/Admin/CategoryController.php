@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
+use DemeterChain\C;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -68,14 +69,23 @@ class CategoryController extends Controller
         return view('Admin.Cate.add', compact('id', 'cateList'));
     }
 
-    public function cateList(Category $category, Request $request){
-        //关键字过滤
-        if (!empty($request->keywords)){
-            $category = $category->where('name', 'like', '%{$request->keywords}%');
-        }
+    /**
+     * @param Category $category
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function cateList(Category $category){
+        $cateList = $category->tree();
+        return view('Admin.Cate.list', compact('cateList'));
+    }
 
-        $category = $category->getPidName()->paginate(20);
-        dd($category);
-        return view('Admin.Cate.list', compact('category'));
+
+    public function cateEdit(Category $category, Request $request, $id){
+
+        if ($request->isMethod('post')){
+
+        }
+        $cate = $category->find($id);
+        $cateList = $category->tree();
+        return view('Admin.Cate.edit', compact('cate','id', 'cateList'));
     }
 }

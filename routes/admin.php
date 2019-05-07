@@ -23,6 +23,8 @@ Route::group(['middleware' => ['authAdmin']], function (){
     Route::any('/logout', 'AuthController@logout')->name('logout');
     //分类
 //    Route::get('/cateAdd/{id?}', 'CategoryController@cateAdd');
-    Route::match(['get', 'post'], '/cateAdd/{id?}', 'CategoryController@cateAdd')->name('cateAdd');
+    Route::match(['get', 'post'], '/cateAdd', 'CategoryController@cateAdd')->name('cateAdd');
     Route::get('/cateList', 'CategoryController@cateList')->name('cateList');
+    Route::get('/cateEdit/{id}', 'CategoryController@cateEdit')->name('admin.cateEdit');
+    Route::delete('/cateDel/{id}', 'CategoryController@cateEdit')->name('admin.cateDel');
 });
