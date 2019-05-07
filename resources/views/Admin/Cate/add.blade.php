@@ -38,7 +38,7 @@
                                     <select name="pid" class="form-control input-lg m-bot15">
                                         <option value="0">|- 一级分类</option>
                                         @foreach($cateList as $v)
-                                                <option value="{{ $v->id }}">| {{ $v->name }}</option>
+                                                <option value="{{ $v->id }}">{{ $v->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

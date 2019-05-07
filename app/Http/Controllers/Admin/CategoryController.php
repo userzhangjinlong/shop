@@ -38,12 +38,14 @@ class CategoryController extends Controller
                         return $request->file('cateicon')->getError();
                     }
 
+                }else{
+                    $cateicon_path = '';
                 }
                 $cate = Category::create([
                     'name'          =>  $request->name,
                     'pid'           =>  $request->pid,
                     'description'   =>  $request->description ?: '',
-                    'cateicon'      =>  $cateicon_path ?: ''
+                    'cateicon'      =>  $cateicon_path
                 ]);
 
 
@@ -62,8 +64,7 @@ class CategoryController extends Controller
 
         }
 
-        $cateList = $category->cateTree();
-//        $cateList = $category->tree();
+        $cateList = $category->tree();
         return view('Admin.Cate.add', compact('id', 'cateList'));
     }
 
