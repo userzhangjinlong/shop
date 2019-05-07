@@ -24,4 +24,5 @@ Route::group(['middleware' => ['authAdmin']], function (){
     //分类
 //    Route::get('/cateAdd/{id?}', 'CategoryController@cateAdd');
     Route::match(['get', 'post'], '/cateAdd/{id?}', 'CategoryController@cateAdd')->name('cateAdd');
+    Route::get('/cateList', 'CategoryController@cateList')->name('cateList');
 });

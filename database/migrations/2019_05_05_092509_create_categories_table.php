@@ -17,7 +17,8 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('pid')->default(0);
             $table->char('name', 20);
-            $table->string('description', 100);
+            $table->string('description', 100)->default('');
+            $table->unsignedInteger('sort')->default(0);
             $table->string('cateicon', 255);
             $table->timestamps();
         });

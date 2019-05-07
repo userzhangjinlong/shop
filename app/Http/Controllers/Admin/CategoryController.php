@@ -9,7 +9,14 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    public function cateAdd(Request $request, $id = null){
+
+    /**
+     * @分类新增
+     * @param Request $request
+     * @param null $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\View\View
+     */
+    public function cateAdd(Category $category, Request $request, $id = null){
 
         if($request->isMethod('post')){
             $this->validate($request, [
@@ -35,14 +42,14 @@ class CategoryController extends Controller
                 $cate = Category::create([
                     'name'          =>  $request->name,
                     'pid'           =>  $request->pid,
-                    'description'   =>  $request->description,
+                    'description'   =>  $request->description ?: '',
                     'cateicon'      =>  $cateicon_path ?: ''
                 ]);
 
 
                 if ($cate){
                     return response()
-                        ->view('success', 200)
+                        ->view('Admin.Public.success', 200)
                         ->header('Content-Type', 'text/plain');
                 }else{
                     return back()->withInput();
@@ -55,6 +62,19 @@ class CategoryController extends Controller
 
         }
 
-        return view('Admin.Cate.add', compact('id'));
+        $cateList = $category->cateTree();
+//        $cateList = $category->tree();
+        return view('Admin.Cate.add', compact('id', 'cateList'));
+    }
+
+    public function cateList(Category $category, Request $request){
+        //关键字过滤
+        if (!empty($request->keywords)){
+            $category = $category->where('name', 'like', '%{$request->keywords}%');
+        }
+
+        $category = $category->getPidName()->paginate(20);
+        dd($category);
+        return view('Admin.Cate.list', compact('category'));
     }
 }
