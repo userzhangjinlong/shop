@@ -49,6 +49,9 @@
                                 <div class="form-group">
                                     <label for="exampleInputFile">图标</label>
                                     <input type="file" name="cateicon" id="cateicon">
+                                    <div class="follow-ava">
+                                        <img src="{{'/'.$cate->cateicon }}" width="40" alt>
+                                    </div>
                                     <p class="help-block">请上传分类图标在这儿</p>
                                 </div>
                                 <button type="submit" class="btn btn-primary">提交</button>
