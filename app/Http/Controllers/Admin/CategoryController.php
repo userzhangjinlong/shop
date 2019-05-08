@@ -154,4 +154,21 @@ class CategoryController extends Controller
         }
     }
 
+    public function cateSort(Category $category, Request $request){
+        $id = $request->id;
+        if (empty($id)){
+            return response()->json(['code' => 400, 'msg' => '分类信息不存在']);
+        }
+
+        $cate = $category->getOneCate($id);
+        $cate->sort = $request->num;
+        $res = $cate->save();
+
+        if ($res){
+            return response()->json(['code' => 200, 'msg' => '修改成功']);
+        }else{
+            return response()->json(['code' => 400, 'msg' => '修改失败']);
+        }
+    }
+
 }

@@ -23,16 +23,16 @@
                         <table class="table table-striped table-advance table-hover">
                             <tbody>
                             <tr>
-                                <th><i class="icon_profile"></i> 名称</th>
+                                <th><i class="icon_menu"></i> 名称</th>
                                 <th><i class="icon_calendar"></i> 创建日期</th>
-                                <th><i class="icon_mobile"></i> 排序</th>
+                                <th><i class="icon_laptop"></i> 排序</th>
                                 <th><i class="icon_cogs"></i> 操作</th>
                             </tr>
                             @foreach($cateList as $v)
                             <tr>
                                 <td>{{ $v->name }}</td>
                                 <td>{{ $v->created_at }}</td>
-                                <td>{{ $v->sort }}</td>
+                                <td><input style="border:none;color: #787878;text-align: center;" type="number" name="sort" value="{{ $v->sort }}" onblur="changeSort({{ $v->id }}, this)"></td>
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-success" href="{{ route('admin.cateEdit', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
@@ -78,5 +78,25 @@
             var url = '{{ url("admin/cateDel") }}'+'/'+id;
             window.location.href=url;
         }
+
+        function changeSort(id, obj) {
+            // var num = $(obj).find('input[name="sort"]').val();
+            var num = $(obj).val();
+
+            $.ajax({
+                type: "Post",
+                url: "{{ route('admin.cateSort') }}", //请求地址
+                data: {'id':id,'num':num, '_token':'{{ csrf_token() }}' },
+                dataType:"JSON",
+                success: function(data) {
+                    if(data.code == 400){
+                        alert(data.msg);
+                    }
+                },
+                error: function(err) {
+                }
+            });
+        }
+
     </script>
 @endsection

@@ -26,4 +26,5 @@ Route::group(['middleware' => ['authAdmin']], function (){
     Route::get('/cateList', 'CategoryController@cateList')->name('cateList');
     Route::match(['get', 'post'], '/cateEdit/{id}', 'CategoryController@cateEdit')->name('admin.cateEdit');
     Route::get('/cateDel/{id}', 'CategoryController@cateDel')->name('admin.cateDel');
+    Route::post('/cateSort', 'CategoryController@cateSort')->name('admin.cateSort');
 });
