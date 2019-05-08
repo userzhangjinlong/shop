@@ -36,8 +36,12 @@
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-success" href="{{ route('admin.cateEdit', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
-                                        <a class="btn btn-danger" href="javascript:if (confirm('确认删除?')) location.href='{{ route('admin.cateDel', [$v->id]) }}'"><i class="icon_close_alt2"></i></a>
+                                        {{--<a class="btn btn-danger" href="javascript:if (confirm('确认删除?')) location.href='{{ route('admin.cateDel', [$v->id]) }}'"><i class="icon_close_alt2"></i></a>--}}
+                                        <a class="btn btn-danger" data-toggle="modal" data-id="{{ $v->id }}" href="#del">
+                                            <i class="icon_close_alt2"></i>
+                                        </a>
                                     </div>
+
                                 </td>
                             </tr>
                             @endforeach
@@ -46,10 +50,33 @@
                     </section>
                 </div>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-delid="0" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">删除分类</h4>
+                        </div>
+                        <div class="modal-body">
+                            你确认删除该分类?
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+                            <button class="btn btn-warning" onclick="del()" type="button"> 确认</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- modal -->
             <!-- page end-->
         </section>
     </section>
     <script type="text/javascript">
-
+        function del(){
+            var id = $('#del').attr('data-delid');
+            var url = '{{ url("admin/cateDel") }}'+'/'+id;
+            window.location.href=url;
+        }
     </script>
 @endsection

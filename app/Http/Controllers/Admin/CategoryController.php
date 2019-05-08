@@ -51,9 +51,12 @@ class CategoryController extends Controller
 
 
                 if ($cate){
-                    return response()
-                        ->view('Admin.Public.success', 200)
-                        ->header('Content-Type', 'text/plain');
+                    return view('Admin.Public.success')->with([
+                        'message'=>'删除成功！',
+                        'url' =>url('/admin/cateList'),
+                        'jumpTime'=>2,
+                        'urlname' => '分类列表'
+                    ]);
                 }else{
                     return back()->withInput();
                 }
@@ -114,9 +117,12 @@ class CategoryController extends Controller
 
             $res = $cate->save();
             if($res){
-                return response()
-                    ->view('Admin.Public.success', 200)
-                    ->header('Content-Type', 'text/plain');
+                return view('Admin.Public.success')->with([
+                    'message'=>'删除成功！',
+                    'url' =>url('/admin/cateList'),
+                    'jumpTime'=>2,
+                    'urlname' => '分类列表'
+                ]);
             }else{
                 return back()->withInput();
             }
@@ -137,9 +143,12 @@ class CategoryController extends Controller
         if(!empty($cate->cateicon)) unlink($cate->cateicon);
         $res = $cate->delete();
         if($res){
-            return response()
-                ->view('Admin.Public.success', 200)
-                ->header('Content-Type', 'text/plain');
+            return view('Admin.Public.success')->with([
+                         'message'=>'删除成功！',
+                         'url' =>url('/admin/cateList'),
+                         'jumpTime'=>2,
+                         'urlname' => '分类列表'
+                     ]);
         }else{
             return back()->withInput();
         }

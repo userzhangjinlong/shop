@@ -385,8 +385,8 @@
 
 <!-- javascripts -->
 <script src="{{ asset('js/jquery.js') }}"></script>
-<script src="{{ asset('js/jquery-ui-1.10.4.min.js') }}"></script>
 <script src="{{ asset('js/jquery-1.8.3.min.js') }}"></script>
+<script src="{{ asset('js/jquery-ui-1.10.4.min.js') }}"></script>
 <script src="{{ asset('js/jquery-ui-1.9.2.custom.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/jquery.scrollTo.min.js') }}"></script>
@@ -414,6 +414,7 @@
 <script src="{{ asset('js/sparklines.js') }}"></script>
 <script src="{{ asset('js/charts.js') }}"></script>
 <script src="{{ asset('js/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('js/gritter.js') }}" type="text/javascript"></script>
 
 <script>
     //knob
