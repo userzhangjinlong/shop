@@ -88,4 +88,10 @@ class Category extends Model
         }
         return $arr;
     }
+
+
+    public function getOneCate($id){
+        return $this->find($id);
+    }
+
 }

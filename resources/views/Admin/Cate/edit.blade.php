@@ -36,9 +36,9 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">父分类</label>
                                     <select name="pid" class="form-control input-lg m-bot15">
-                                        <option value="0">|- 一级分类</option>
+                                        <option value="0" @if ($cate->pid == 0) selected="selected" @endif >|- 一级分类</option>
                                         @foreach($cateList as $v)
-                                                <option @if ($cate->id == $v->id) selected="selected" @endif value="{{ $v->id }}">{{ $v->name }}</option>
+                                                <option @if ($cate->pid == $v->id) selected="selected" @endif value="{{ $v->id }}">{{ $v->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

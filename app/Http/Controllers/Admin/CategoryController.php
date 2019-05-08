@@ -79,13 +79,70 @@ class CategoryController extends Controller
     }
 
 
+    /**
+     * @param Category $category
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\View\View
+     */
     public function cateEdit(Category $category, Request $request, $id){
 
         if ($request->isMethod('post')){
+            $this->validate($request, [
+                'name'      =>      'required|max:10'
+            ]);
+            $cate = $category->getOneCate($id);
+            $floder = 'Uploads/Cateicon/'.date('Ymd');
+            if($request->hasFile('cateicon')){
+                if ($request->file('cateicon')->isValid()){
+                    if (!Storage::disk('public')->exists($floder)){
+                        Storage::makeDirectory($floder);
+                    }
+                    $extension = $request->file('cateicon')->getClientOriginalExtension();
+                    $fileName = time() . mt_rand(1, 999) . '.'. $extension;
+                    $res = $request->file('cateicon')->move($floder,$fileName);
+                    if ($res) $cate->cateicon = $floder.'/'.$fileName;
+                }else{
+                    return $request->file('cateicon')->getError();
+                }
+
+            }
+
+            $cate->name = $request->name;
+            $cate->pid = $request->pid;
+            $cate->description = $request->description ?: '';
+
+            $res = $cate->save();
+            if($res){
+                return response()
+                    ->view('Admin.Public.success', 200)
+                    ->header('Content-Type', 'text/plain');
+            }else{
+                return back()->withInput();
+            }
 
         }
-        $cate = $category->find($id);
+        $cate = $category->getOneCate($id);
         $cateList = $category->tree();
         return view('Admin.Cate.edit', compact('cate','id', 'cateList'));
     }
+
+    /**
+     * @param Category $category
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
+    public function cateDel(Category $category, $id){
+        $cate = $category->find($id);
+        if(!empty($cate->cateicon)) unlink($cate->cateicon);
+        $res = $cate->delete();
+        if($res){
+            return response()
+                ->view('Admin.Public.success', 200)
+                ->header('Content-Type', 'text/plain');
+        }else{
+            return back()->withInput();
+        }
+    }
+
 }

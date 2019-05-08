@@ -36,7 +36,7 @@
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-success" href="{{ route('admin.cateEdit', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
-                                        <a class="btn btn-danger" href="{{ route('admin.cateDel', [$v->id]) }}"><i class="icon_close_alt2"></i></a>
+                                        <a class="btn btn-danger" href="javascript:if (confirm('确认删除?')) location.href='{{ route('admin.cateDel', [$v->id]) }}'"><i class="icon_close_alt2"></i></a>
                                     </div>
                                 </td>
                             </tr>
