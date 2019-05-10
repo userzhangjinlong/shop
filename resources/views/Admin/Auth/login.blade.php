@@ -26,18 +26,26 @@
                 </span>
                 @endif
             </div>
+            @if (!empty(session('error')))
+                <div class="alert alert-success">
+                    <a class="close" data-dismiss="alert">×</a>
+                    <strong>{{ session('error') }}</strong>
+                </div>
+                </span>
+            @endif
+
             <label class="checkbox">
-                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> 记住我
+            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> 记住我
             </label>
             <button class="btn btn-primary btn-lg btn-block" type="submit">登录</button>
-        </div>
-    </form>
-    <div class="text-right">
-        <div class="credits">
+            </div>
+            </form>
+            <div class="text-right">
+            <div class="credits">
             Designed by <a href="https://www.zhangjinlong-blog.cn/">zjl</a>
-        </div>
-    </div>
+            </div>
+            </div>
 
-</div>
+            </div>
 @endsection
 
