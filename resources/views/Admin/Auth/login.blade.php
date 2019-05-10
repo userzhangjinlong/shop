@@ -27,8 +27,8 @@
                 @endif
             </div>
             @if (!empty(session('error')))
-                <div class="alert alert-success">
-                    <a class="close" data-dismiss="alert">×</a>
+                <div class="alert alert-danger">
+                    {{--<a class="close" data-dismiss="alert">×</a>--}}
                     <strong>{{ session('error') }}</strong>
                 </div>
                 </span>
