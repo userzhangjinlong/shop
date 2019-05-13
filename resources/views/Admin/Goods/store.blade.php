@@ -111,13 +111,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="cname" class="control-label col-lg-2">邮费 <span class="required">*</span></label>
+                                        <label for="cname" class="control-label col-lg-2">邮费 </label>
                                         <div class="col-lg-10">
                                             <input type="number" class="form-control" name="postage" id="postage" placeholder="请输入邮费">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="cname" class="control-label col-lg-2">满多少包邮费 <span class="required">*</span></label>
+                                        <label for="cname" class="control-label col-lg-2">满多少包邮费 </label>
                                         <div class="col-lg-10">
                                             <input type="text" class="form-control" name="full_price" value="0" id="full_price" placeholder="满足金额减免邮费,0表示不减邮费">
                                         </div>
@@ -138,6 +138,7 @@
                                         </div>
                                     </div>
 
+
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">商品详情 <span class="required">*</span></label>
                                         <div class="col-lg-10">
@@ -146,7 +147,7 @@
                                                     商品详情
                                                 </header>
                                                 <div class="panel-body">
-                                                    <div id="editor" class="btn-toolbar" data-role="editor-toolbar" data-target="#editor"></div>
+                                                    <div id="editor2" class="btn-toolbar2" data-role="editor-toolbar2" data-target="#editor2"></div>
                                                 </div>
                                             </section>
                                         </div>
@@ -170,7 +171,21 @@
             <!-- page end-->
         </section>
     </section>
+
     <script type="text/javascript">
 
     </script>
+@endsection
+
+@section('script')
+    <!-- bootstrap-wysiwyg -->
+    <script src="{{ asset('js/jquery.hotkeys.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-wysiwyg.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-wysiwyg-custom.js') }}"></script>
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-colorpicker.js') }}"></script>
+    <script src="{{ asset('js/daterangepicker.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+    <!-- ck editor -->
+    <script type="text/javascript" src="{{ asset('js/assets/ckeditor/ckeditor.js') }}"></script>
 @endsection
