@@ -123,18 +123,12 @@
                                         </div>
                                     </div>
 
-                                    <!-- Bootsrep Editor -->
+
+                                    <!-- CKEditor -->
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">保障信息 <span class="required">*</span></label>
                                         <div class="col-lg-10">
-                                            <section class="panel">
-                                                <header class="panel-heading">
-                                                    保障信息
-                                                </header>
-                                                <div class="panel-body">
-                                                    <div id="editor" class="btn-toolbar" data-role="editor-toolbar" data-target="#editor"></div>
-                                                </div>
-                                            </section>
+                                            <textarea id="editor" name="ensure"></textarea>
                                         </div>
                                     </div>
 
@@ -142,14 +136,7 @@
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">商品详情 <span class="required">*</span></label>
                                         <div class="col-lg-10">
-                                            <section class="panel">
-                                                <header class="panel-heading">
-                                                    商品详情
-                                                </header>
-                                                <div class="panel-body">
-                                                    <div id="editor2" class="btn-toolbar2" data-role="editor-toolbar2" data-target="#editor2"></div>
-                                                </div>
-                                            </section>
+                                            <textarea id="editor1" name="goods_detail"></textarea>
                                         </div>
                                     </div>
 
@@ -188,4 +175,22 @@
     <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
     <!-- ck editor -->
     <script type="text/javascript" src="{{ asset('js/assets/ckeditor/ckeditor.js') }}"></script>
+
+    <script>
+        CKEDITOR.editorConfig = function(config) {
+            // config.language = 'fr';
+            // config.uiColor = '#AADC6E';
+            config.image_previewText = '';
+            config.removeDialogTabs = 'image:advanced;image:Link';//隐藏超链接与高级选项
+            {{--config.filebrowserImageUploadUrl = "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}";//上传图片的地址--}}
+            config.filebrowserImageUploadUrl = "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}";//上传图片的地址
+        };
+        CKEDITOR.replace("editor", {
+            language : 'zh-cn',
+
+        });
+        CKEDITOR.replace("editor1", { });
+    </script>
+
+
 @endsection

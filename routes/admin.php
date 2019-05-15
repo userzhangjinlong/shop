@@ -31,4 +31,7 @@ Route::group(['middleware' => ['authAdmin']], function (){
     //商品
     Route::get('/goodsList', 'GoodsController@index')->name('admin.goodsList');
     Route::match(['get', 'post'], '/goodsAdd', 'GoodsController@store')->name('admin.goodsAdd');
+
+    //ckedtior 编辑器图片上传
+    Route::any('/uploaddditorimage/{path?}', 'PublicController@upload')->name('admin.uploaddditorimage');
 });
