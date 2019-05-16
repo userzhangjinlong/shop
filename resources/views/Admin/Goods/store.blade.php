@@ -177,16 +177,17 @@
     <script type="text/javascript" src="{{ asset('js/assets/ckeditor/ckeditor.js') }}"></script>
 
     <script>
-        CKEDITOR.editorConfig = function(config) {
-            // config.language = 'fr';
-            // config.uiColor = '#AADC6E';
-            config.image_previewText = '';
-            config.removeDialogTabs = 'image:advanced;image:Link';//隐藏超链接与高级选项
+        {{--CKEDITOR.editorConfig = function(config) {--}}
+            {{--// config.language = 'fr';--}}
+            {{--// config.uiColor = '#AADC6E';--}}
+            {{--config.image_previewText = '';--}}
+            {{--config.removeDialogTabs = 'image:advanced;image:Link';//隐藏超链接与高级选项--}}
             {{--config.filebrowserImageUploadUrl = "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}";//上传图片的地址--}}
-            config.filebrowserImageUploadUrl = "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}";//上传图片的地址
-        };
+            {{--config.filebrowserImageUploadUrl = "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}";//上传图片的地址--}}
+        {{--};--}}
         CKEDITOR.replace("editor", {
             language : 'zh-cn',
+            filebrowserImageUploadUrl : "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}",//上传图片的地址
 
         });
         CKEDITOR.replace("editor1", { });
