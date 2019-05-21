@@ -17,7 +17,7 @@ class PublicController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function upload(Request $request, $path = 'public'){
-        $cb = $_GET['CKEditorFuncNum'];
+        $cb = $request->get('CKEditorFuncNum');
         $floder = 'Uploads/'.$path.'/'.date('Ymd');
         if (!Storage::disk('public')->exists($floder)){
             Storage::makeDirectory($floder, 0775, true);

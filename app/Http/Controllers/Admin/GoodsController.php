@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Goods;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class GoodsController extends Controller
 {
@@ -25,13 +26,10 @@ class GoodsController extends Controller
             $floder = 'Uploads/Goods/'.date('Ymd');
             if (empty($request->id)){
                 //缩略图上传
-//                if (!Storage::disk('public')->exists($floder)){
-//                    Storage::makeDirectory($floder);
-//                }
-//                $extension = $request->file('thumb_img')->getClientOriginalExtension();
-//                $fileName = time() . mt_rand(1, 999) . '.'. $extension;
-//                $res = $request->file('Goods')->move($floder,$fileName);
-//                if ($res) $thumb_path = $floder.'/'.$fileName;
+                if (!Storage::disk('public')->exists($floder)){
+                    Storage::makeDirectory($floder);
+                }
+
 
                 //多图上传处理
                 dd($request->file('carousel_img'));
@@ -39,15 +37,39 @@ class GoodsController extends Controller
                 $goods->validatorGoodsStore($request->all());
 
                 if($request->file('thumb_img')){
+                    $extension = $request->file('thumb_img')->getClientOriginalExtension();
+                    $rule = ['jpg', 'png', 'gif', 'jpeg'];
+                    if (!in_array($extension, $rule)) {
+                        return '图片格式需要为jpg,png,gif格式';
+                    }
+                    $fileName = time() . mt_rand(1, 999) . '.'. $extension;
+                    $res = $request->file('Goods')->move($floder,$fileName);
+                    if ($res) {
+                        return '图片上传失败';
+                    }
+                    $thumb_path = $floder.'/'.$fileName;
 
                 }else{
-
+                    return '缩略图必须上传';
                 }
 
                 if($request->file('carousel_img')){
-
+                    $carousel_img = '';
+                    foreach($request->file('carousel_img') as $k => $v){
+                        $extension = $v->getClientOriginalExtension();
+                        $rule = ['jpg', 'png', 'gif', 'jpeg'];
+                        if (!in_array($extension, $rule)) {
+                            return '图片格式需要为jpg,png,gif格式';
+                        }
+                        $fileName = time() . mt_rand(1, 999) . '.'. $extension;
+                        $res = $v->move($floder,$fileName);
+                        if ($res) {
+                            return '图片上传失败';
+                        }
+                        $carousel_img .= $floder.'/'.$fileName;
+                    }
                 }else{
-
+                    return '详情图必须上传';
                 }
 
                 $res = Goods::created([
@@ -57,7 +79,7 @@ class GoodsController extends Controller
                     'tags'          =>  $request->tags,
                     'original_price'=>  $request->original_price,
                     'present_price' =>  $request->present_price,
-                    'thumb_img'     =>  $thumb_img,
+                    'thumb_img'     =>  $thumb_path,
                     'carousel_img'  =>  $carousel_img,
                     'stock'         =>  $request->stock,
                     'post_free'     =>  $request->post_free,
