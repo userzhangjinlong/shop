@@ -30,5 +30,6 @@ CKEDITOR.editorConfig = function( config ) {
 	// need to have in the Standard(s) toolbar.
 	config.removeButtons = 'Underline,Subscript,Superscript';
 	config.filebrowserUploadUrl="uploaddditorimage";
-	config.removeDialogTabs = 'image:advanced;image:link;image:info';//移除链接 高级等按钮
+	config.removeDialogTabs = 'image:advanced;image:Link;';//移除链接 高级等按钮 //image:info
+	// config.removeDialogTabs = 'image:advanced;image:Link';//移除链接 高级等按钮image:info
 };

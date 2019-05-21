@@ -186,11 +186,13 @@
             {{--config.filebrowserImageUploadUrl = "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}";//上传图片的地址--}}
         {{--};--}}
         CKEDITOR.replace("editor", {
+            height:'400px',
             language : 'zh-cn',
             filebrowserImageUploadUrl : "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}",//上传图片的地址
 
         });
         CKEDITOR.replace("editor1", {
+            height:'400px',
             language : 'zh-cn',
             filebrowserImageUploadUrl : "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}",//上传图片的地址
         });
