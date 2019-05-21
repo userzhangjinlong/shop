@@ -2,57 +2,48 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Goods;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class PublicController extends Controller
 {
-    public function upload(Goods $goods, Request $request, $path = null){
-        $goods->validatorGoodsStore($request->all());
+    /**
+     * ckedtior公共图片上传
+     *
+     * @param Request $request
+     * @param string $path
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function upload(Request $request, $path = 'public'){
 
-        if($request->file('thumb_img')){
-
-        }else{
-
+        $floder = 'Uploads/'.$path.'/'.date('Ymd');
+        if (!Storage::disk('public')->exists($floder)){
+            Storage::makeDirectory($floder, 0775, true);
         }
 
-        if($request->file('carousel_img')){
-
+        if ($request->file('upload')){
+//            $img_path = [];
+            $img_path = '';
+            foreach ($request->file('upload') as $k => $v){
+                $extension = $v->getClientOriginalExtension();
+                $rule = ['jpg', 'png', 'gif', 'jpeg'];
+                if (!in_array($extension, $rule)) {
+                    return response()->json(['code' => 400, 'msg' => '图片格式需要为jpg,png,gif格式']);
+//                    return '图片格式需要为jpg,png,gif格式';
+                }
+                $fileName = time() . mt_rand(1, 999) . '.'. $extension;
+                $v->move($floder,$fileName);
+//                $v->storeAs($floder,$fileName);
+//                $img_path[] = $floder.'/'.$fileName;
+                $img_path .= '<img src="'.'/'.$floder.'/'.$fileName.'">';
+            }
+//            return response()->json(['code' => 200, 'msg' => '上传成功', 'imgs' => $img_path]);
+            echo "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(".count($request->file('upload')).",'$img_path','');</script>";
+//            return $img_path;
         }else{
-
+            return response()->json(['code' => 400, 'msg' => '请选择您要上传的图片']);
         }
-
-        $res = Goods::created([
-            'goods_name'    =>  $request->goods_name,
-            'cate_id'       =>  $request->cate_id,
-            'desc'          =>  $request->desc,
-            'tags'          =>  $request->tags,
-            'original_price'=>  $request->original_price,
-            'present_price' =>  $request->present_price,
-            'thumb_img'     =>  $thumb_img,
-            'carousel_img'  =>  $carousel_img,
-            'stock'         =>  $request->stock,
-            'post_free'     =>  $request->post_free,
-            'postage'       =>  $request->postage,
-            'full_price'    =>  $request->full_price,
-            'ensure'        =>  $request->ensure,
-            'goods_detail'  =>  $request->goods_detail
-        ]);
-
-        if($res){
-            return view('Admin.Public.success')->with([
-                'message'=>'新增成功！',
-                'url' =>url('/admin/goodsList'),
-                'jumpTime'=>2,
-                'urlname' => '商品列表'
-            ]);
-        }else{
-            return back()->withInput();
-        }
-
-        var_dump($path);
-        var_dump($request->file('upload'));
-//        var_dump('test');
     }
 }

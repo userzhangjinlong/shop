@@ -28,7 +28,7 @@ class CategoryController extends Controller
                 if($request->hasFile('cateicon')){
                     if ($request->file('cateicon')->isValid()){
                         if (!Storage::disk('public')->exists($floder)){
-                            Storage::makeDirectory($floder);
+                            Storage::makeDirectory($floder, 0775, true);
                         }
                         $extension = $request->file('cateicon')->getClientOriginalExtension();
                         $fileName = time() . mt_rand(1, 999) . '.'. $extension;

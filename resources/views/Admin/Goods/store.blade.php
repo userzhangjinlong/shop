@@ -190,7 +190,10 @@
             filebrowserImageUploadUrl : "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}",//上传图片的地址
 
         });
-        CKEDITOR.replace("editor1", { });
+        CKEDITOR.replace("editor1", {
+            language : 'zh-cn',
+            filebrowserImageUploadUrl : "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}",//上传图片的地址
+        });
     </script>
 
 

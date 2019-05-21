@@ -7950,7 +7950,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                         (b = e.size - (CKEDITOR.env.ie ? 7 : 0));
                         var h = a.frameId + "_input";
                          var scrftoken = $('meta[name="csrf-token"]').attr('content');
-                        d.$.write(['<html dir="' + g + '" lang="' + j + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">', '<form enctype="multipart/form-data" method="POST" dir="' + g + '" lang="' + j + '" action="', CKEDITOR.tools.htmlEncode(e.action), '"><input type="hidden" name="_token" value="'+scrftoken+'"><label id="', a.labelId, '" for="', h, '" style="display:none">', CKEDITOR.tools.htmlEncode(e.label), '</label><input id="', h, '" aria-labelledby="', a.labelId, '" type="file" name="', CKEDITOR.tools.htmlEncode(e.id ||
+                        // e.id
+                        d.$.write(['<html dir="' + g + '" lang="' + j + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">', '<form enctype="multipart/form-data" method="POST" dir="' + g + '" lang="' + j + '" action="', CKEDITOR.tools.htmlEncode(e.action), '"><input type="hidden" name="_token" value="'+scrftoken+'"><label id="', a.labelId, '" for="', h, '" style="display:none">', CKEDITOR.tools.htmlEncode(e.label), '</label><input id="', h, '" aria-labelledby="', a.labelId, '" type="file" name="', CKEDITOR.tools.htmlEncode('upload[]' ||
                             "cke_upload"), '" size="', CKEDITOR.tools.htmlEncode(0 < b ? b : ""), '"  multiple/></form></body></html>', "<script>window.parent.CKEDITOR.tools.callFunction(" + f + ");", "window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(" + i + ")}<\/script>"].join(""));
                         d.$.close();
                         for (b = 0; b < c.length; b++) c[b].enable()
