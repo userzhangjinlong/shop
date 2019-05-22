@@ -12,6 +12,16 @@
                     </ol>
                 </div>
             </div>
+            @if(!empty($errors->any()))
+                <div class="alert alert-block alert-danger fade in">
+                    <button data-dismiss="alert" class="close close-sm" type="button">
+                        <i class="icon-remove"></i>
+                    </button>
+                    @foreach ($errors->all() as $error)
+                        <strong>* {{ $error }}</strong><br>
+                    @endforeach
+                </div>
+            @endif
             <!--  page start -->
             <div class="row">
                 <div class="col-lg-12">
@@ -27,9 +37,6 @@
                                         <label for="cname" class="control-label col-lg-2">商品名称 <span class="required">*</span></label>
                                         <div class="col-lg-10">
                                             <input type="text" class="form-control @if ($errors->has('goods_name')) error @endif" name="goods_name" id="name" placeholder="请输入商品名字" required />
-                                            @if ($errors->has('goods_name'))
-                                            <label for="subject" class="error">{{ $errors->first('goods_name') }}</label>
-                                            @endif
                                         </div>
                                     </div>
 
@@ -64,9 +71,6 @@
                                         <label for="cname" class="control-label col-lg-2">商品原价 <span class="required">*</span></label>
                                         <div class="col-lg-10">
                                             <input type="text" class="form-control @if ($errors->has('original_price')) error @endif" name="original_price" id="original_price" placeholder="请输入商品原价" required />
-                                            @if ($errors->has('original_price'))
-                                                <label for="subject" class="error">{{ $errors->first('original_price') }}</label>
-                                            @endif
                                         </div>
                                     </div>
 
@@ -74,9 +78,6 @@
                                         <label for="cname" class="control-label col-lg-2">商品售价 <span class="required">*</span></label>
                                         <div class="col-lg-10">
                                             <input type="text" class="form-control @if ($errors->has('present_price')) error @endif" name="present_price" id="present_price" placeholder="请输入商品售价" required />
-                                            @if ($errors->has('present_price'))
-                                                <label for="subject" class="error">{{ $errors->first('present_price') }}</label>
-                                            @endif
                                         </div>
                                     </div>
 
@@ -90,7 +91,7 @@
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">商品轮播多图 <span class="required">*</span></label>
                                         <div class="col-lg-10">
-                                            <input type="file" name="carousel_img" id="carousel_img" multiple/>
+                                            <input type="file" name="carousel_img[]" id="carousel_img" multiple/>
                                             <p class="help-block">请上传轮播多图在这儿</p>
                                         </div>
                                     </div>
@@ -98,9 +99,6 @@
                                         <label for="cname" class="control-label col-lg-2">商品库存 <span class="required">*</span></label>
                                         <div class="col-lg-10">
                                             <input type="text" class="form-control @if ($errors->has('stock')) error @endif" name="stock" id="stock" placeholder="请输入商品库存" required />
-                                            @if ($errors->has('stock'))
-                                                <label for="subject" class="error">{{ $errors->first('stock') }}</label>
-                                            @endif
                                         </div>
                                     </div>
 
@@ -113,7 +111,7 @@
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">邮费 </label>
                                         <div class="col-lg-10">
-                                            <input type="number" class="form-control" name="postage" id="postage" placeholder="请输入邮费">
+                                            <input type="number" class="form-control" name="postage" id="postage" value="0" placeholder="请输入邮费">
                                         </div>
                                     </div>
                                     <div class="form-group">

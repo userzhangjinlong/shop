@@ -94,4 +94,8 @@ class Category extends Model
         return $this->find($id);
     }
 
+    public function getGoodsList(){
+        return $this->belongsToMany(Goods::class, 'goods', 'cate_id');
+    }
+
 }
