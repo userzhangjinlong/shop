@@ -15,18 +15,16 @@ class GoodsController extends Controller
     public function index(Goods $goods, Request $request)
     {
         //with 实现多表关联查询获取
-        $list = Goods::query();
-//        $list = $goods->with(['category'])->query();
+        $list = $goods->with(['category' => function ($query){
+            $query->select('name','id');
+        }]);
         // 关键字过滤
         if($keyword = $request->keyword ?? ''){
             $list = $list->where('goods_name', 'like', '%'.$request->keyword.'%');
         }
-//
-        $list = $list->with(['category' => function($query){
-            $query->select('id, goods_name, created_at, name, cate_id');
-        }])->paginate(20);
-//        $list = $goods->select('id, goods_name, created_at, name, cate_id')->paginate(20);
-        dd($list);
+
+
+        $list = $list->select('id', 'goods_name', 'created_at', 'cate_id')->paginate(20);
 
         return view('Admin.Goods.index', compact('list'));
     }

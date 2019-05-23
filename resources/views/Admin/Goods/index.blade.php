@@ -24,6 +24,7 @@
                             <tbody>
                             <tr>
                                 <th><i class="icon_menu"></i> 名称</th>
+                                <th><i class="icon_menu"></i> 分类名称</th>
                                 <th><i class="icon_calendar"></i> 创建日期</th>
                                 <th><i class="icon_laptop"></i> 排序</th>
                                 <th><i class="icon_cogs"></i> 操作</th>
@@ -31,12 +32,12 @@
                             @if(!empty($list))
                                 @foreach($list as $v)
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ $v->goods_name }}</td>
+                                    <td>{{ $v->category->name }}</td>
+                                    <td>{{ $v->created_at }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a class="btn btn-success" href=""><i class="icon_pencil-edit_alt"></i></a>
+                                            <a class="btn btn-success" href="{{ route('admin.goodsAdd', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
                                             {{--<a class="btn btn-danger" href="javascript:if (confirm('确认删除?')) location.href='{{ route('admin.cateDel', [$v->id]) }}'"><i class="icon_close_alt2"></i></a>--}}
                                             <a class="btn btn-danger" data-toggle="modal" data-id="" href="#del">
                                                 <i class="icon_close_alt2"></i>
@@ -60,10 +61,10 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">删除分类</h4>
+                            <h4 class="modal-title">删除商品</h4>
                         </div>
                         <div class="modal-body">
-                            你确认删除该分类?
+                            你确认删除该商品??
                         </div>
                         <div class="modal-footer">
                             <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
