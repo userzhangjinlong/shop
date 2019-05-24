@@ -31,12 +31,12 @@
                         </header>
                         <div class="panel-body">
                             <div class="form">
-                                <form method="POST" class="form-validate form-horizontal" id="feedback_form"  action="{{ route('admin.goodsAdd') }}" enctype="multipart/form-data">
+                                <form method="POST" class="form-validate form-horizontal" id="feedback_form"  action="{{ route('admin.goodsAdd', [$id]) }}" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">商品名称 <span class="required">*</span></label>
                                         <div class="col-lg-10">
-                                            <input type="text" class="form-control @if ($errors->has('goods_name')) error @endif" name="goods_name" id="name" placeholder="请输入商品名字" required />
+                                            <input type="text" class="form-control @if ($errors->has('goods_name')) error @endif" name="goods_name" @if ($goods_info) value="{{ $goods_info->goods_name }}" @endif id="name" placeholder="请输入商品名字" required />
                                         </div>
                                     </div>
 
@@ -46,7 +46,7 @@
                                         <select name="cate_id" class="form-control m-bot15">
                                             <option value="">请选择分类</option>
                                             @foreach($cate as $v)
-                                                <option value="{{ $v->id }}">{{ $v->name }}</option>
+                                                <option @if($goods_info && $goods_info->cate_id == $v->id) selected @endif value="{{ $v->id }}">{{ $v->name }}</option>
                                             @endforeach
                                         </select>
                                         </div>
@@ -56,28 +56,28 @@
                                     <div class="form-group ">
                                         <label for="cname" class="control-label col-lg-2">商品描述</label>
                                         <div class="col-lg-10">
-                                            <input type="text" class="form-control error" name="desc" id="desc" placeholder="请填写分类描述" />
+                                            <input type="text" class="form-control error" name="desc" @if ($goods_info) value="{{ $goods_info->desc }}" @endif id="desc" placeholder="请填写分类描述" />
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">商品标签</label>
                                         <div class="col-lg-10">
-                                            <input type="text" class="form-control" name="tags" id="tags" placeholder="多个标签请以英文','符号分割例入:测试1,测试2">
+                                            <input type="text" class="form-control" name="tags" @if ($goods_info) value="{{ $goods_info->tags }}" @endif id="tags" placeholder="多个标签请以英文','符号分割例入:测试1,测试2">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">商品原价 <span class="required">*</span></label>
                                         <div class="col-lg-10">
-                                            <input type="text" class="form-control @if ($errors->has('original_price')) error @endif" name="original_price" id="original_price" placeholder="请输入商品原价" required />
+                                            <input type="text" class="form-control @if ($errors->has('original_price')) error @endif" name="original_price" @if ($goods_info) value="{{ $goods_info->original_price }}" @endif id="original_price" placeholder="请输入商品原价" required />
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">商品售价 <span class="required">*</span></label>
                                         <div class="col-lg-10">
-                                            <input type="text" class="form-control @if ($errors->has('present_price')) error @endif" name="present_price" id="present_price" placeholder="请输入商品售价" required />
+                                            <input type="text" class="form-control @if ($errors->has('present_price')) error @endif" name="present_price" @if ($goods_info) value="{{ $goods_info->present_price }}" @endif id="present_price" placeholder="请输入商品售价" required />
                                         </div>
                                     </div>
 
@@ -86,6 +86,7 @@
                                         <div class="col-lg-10">
                                             <input type="file" name="thumb_img" id="thumb_img">
                                             <p class="help-block">请上传缩略图在这儿</p>
+                                            @if($goods_info && $goods_info->thumb_img) <img src="{{ $goods_info->thumb_img }}" width="40"> @endif
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -93,31 +94,37 @@
                                         <div class="col-lg-10">
                                             <input type="file" name="carousel_img[]" id="carousel_img" multiple/>
                                             <p class="help-block">请上传轮播多图在这儿</p>
+                                            @if($goods_info && $goods_info->carousel_img)
+                                                @foreach($goods_info->carousel_img as $img)
+                                                    <img src="{{ $img }}" width="40">
+                                                @endforeach
+                                            @endif
+
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">商品库存 <span class="required">*</span></label>
                                         <div class="col-lg-10">
-                                            <input type="text" class="form-control @if ($errors->has('stock')) error @endif" name="stock" id="stock" placeholder="请输入商品库存" required />
+                                            <input type="text" class="form-control @if ($errors->has('stock')) error @endif" name="stock" @if ($goods_info) value="{{ $goods_info->stock }}" @endif id="stock" placeholder="请输入商品库存" required />
                                         </div>
                                     </div>
 
                                     <div class="form-group checkbox">
                                         <label for="cname" class="control-label col-lg-2">包邮选择 </label>
                                         <div class="col-lg-10">
-                                            <input type="checkbox" name="post_free" checked="true" value="0"> 是否包邮
+                                            <input type="checkbox" name="post_free" @if ($goods_info) @if ($goods_info->post_free ==0 || empty($goods_info->post_free)) checked="true" @endif @else checked="true" @endif value="0"> 是否包邮
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">邮费 </label>
                                         <div class="col-lg-10">
-                                            <input type="number" class="form-control" name="postage" id="postage" value="0" placeholder="请输入邮费">
+                                            <input type="number" class="form-control" name="postage" id="postage" @if ($goods_info) value="{{ $goods_info->postage ?: 0 }}" @endif placeholder="请输入邮费">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">满多少包邮费 </label>
                                         <div class="col-lg-10">
-                                            <input type="text" class="form-control" name="full_price" value="0" id="full_price" placeholder="满足金额减免邮费,0表示不减邮费">
+                                            <input type="text" class="form-control" name="full_price" @if ($goods_info) value="{{ $goods_info->full_price ?: 0 }}" @endif id="full_price" placeholder="满足金额减免邮费,0表示不减邮费">
                                         </div>
                                     </div>
 
@@ -126,7 +133,7 @@
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">保障信息 <span class="required">*</span></label>
                                         <div class="col-lg-10">
-                                            <textarea id="editor" name="ensure"></textarea>
+                                            <textarea id="editor" name="ensure">@if ($goods_info) {{ $goods_info->ensure }} @endif</textarea>
                                         </div>
                                     </div>
 
@@ -134,7 +141,7 @@
                                     <div class="form-group">
                                         <label for="cname" class="control-label col-lg-2">商品详情 <span class="required">*</span></label>
                                         <div class="col-lg-10">
-                                            <textarea id="editor1" name="goods_detail"></textarea>
+                                            <textarea id="editor1" name="goods_detail">@if ($goods_info) {{ $goods_info->goods_detail }} @endif</textarea>
                                         </div>
                                     </div>
 
@@ -142,6 +149,7 @@
 
                                     <div class="form-group">
                                         <div class="col-lg-offset-2 col-lg-10">
+                                            @if($goods_info) <input type="hidden" name="id" value="{{ $goods_info->id }}"> @endif
                                             <button class="btn btn-primary" type="submit">提交</button>
                                             {{--<button class="btn btn-default" type="button">取消</button>--}}
                                         </div>

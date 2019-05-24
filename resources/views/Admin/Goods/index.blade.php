@@ -35,11 +35,12 @@
                                     <td>{{ $v->goods_name }}</td>
                                     <td>{{ $v->category->name }}</td>
                                     <td>{{ $v->created_at }}</td>
+                                    <td>0</td>
                                     <td>
                                         <div class="btn-group">
                                             <a class="btn btn-success" href="{{ route('admin.goodsAdd', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
                                             {{--<a class="btn btn-danger" href="javascript:if (confirm('确认删除?')) location.href='{{ route('admin.cateDel', [$v->id]) }}'"><i class="icon_close_alt2"></i></a>--}}
-                                            <a class="btn btn-danger" data-toggle="modal" data-id="" href="#del">
+                                            <a class="btn btn-danger" data-toggle="modal" data-id="{{ $v->id }}" href="#del">
                                                 <i class="icon_close_alt2"></i>
                                             </a>
                                         </div>
@@ -77,12 +78,12 @@
             <!-- page end-->
         </section>
     </section>
-    {{--<script type="text/javascript">--}}
-        {{--function del(){--}}
-            {{--var id = $('#del').attr('data-delid');--}}
-            {{--var url = '{{ url("admin/cateDel") }}'+'/'+id;--}}
-            {{--window.location.href=url;--}}
-        {{--}--}}
+    <script type="text/javascript">
+        function del(){
+            var id = $('#del').attr('data-delid');
+            var url = '{{ url("admin.goodsDel") }}'+'/'+id;
+            window.location.href=url;
+        }
 
         {{--function changeSort(id, obj) {--}}
             {{--// var num = $(obj).find('input[name="sort"]').val();--}}
@@ -103,5 +104,5 @@
             {{--});--}}
         {{--}--}}
 
-    {{--</script>--}}
+    </script>
 @endsection

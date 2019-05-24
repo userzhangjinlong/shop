@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
 use App\Models\Goods;
+use DemeterChain\C;
 use function foo\func;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,26 +27,29 @@ class GoodsController extends Controller
 
 
         $list = $list->select('id', 'goods_name', 'created_at', 'cate_id')->paginate(20);
-
         return view('Admin.Goods.index', compact('list'));
     }
 
-    public function store(Goods $goods, Request $request){
+    public function store(Goods $goods, Request $request, $id = null){
 
         if($request->isMethod('post')){
+
             $rule = [
                 'goods_name'        =>      'required',
                 'cate_id'           =>      'required',
                 'original_price'    =>      'required',
                 'present_price'     =>      'required',
-                'thumb_img'         =>      'required',
-                'carousel_img'      =>      'required',
                 'stock'             =>      'required|integer',
 //                'postage'           =>      'integer',
-                'full_price'        =>      'integer',
+//                'full_price'        =>      'integer',
                 'ensure'            =>      'required|string',
                 'goods_detail'      =>      'required|string'
             ];
+
+            if (empty($request->id)){
+                $rule['thumb_img'] = 'required';
+                $rule['carousel_img'] = 'required';
+            }
 
             $message = [
                 'goods_name.required'           =>  '商品名称必填',
@@ -65,56 +70,59 @@ class GoodsController extends Controller
 
             }
             $floder = 'Uploads/Goods/'.date('Ymd');
-            if (empty($request->id)){
-                //缩略图上传
-                if (!Storage::disk('public')->exists($floder)){
-                    Storage::makeDirectory($floder);
-                }
 
-                if($request->file('thumb_img')){
-                    if ($request->file('thumb_img')->isValid()) {
-                        $extension = $request->file('thumb_img')->getClientOriginalExtension();
+            //缩略图上传
+            if (!Storage::disk('public')->exists($floder)){
+                Storage::makeDirectory($floder);
+            }
+
+            if($request->file('thumb_img')){
+                if ($request->file('thumb_img')->isValid()) {
+                    $extension = $request->file('thumb_img')->getClientOriginalExtension();
+                    $rule = ['jpg', 'png', 'gif', 'jpeg'];
+                    if (!in_array($extension, $rule)) {
+                        return back()->withErrors(['图片格式需要为jpg,png,gif格式!'])->withInput();
+                    }
+                    $fileName = time() . mt_rand(1, 999) . '.' . $extension;
+                    $res = $request->file('thumb_img')->move($floder, $fileName);
+                    if (!$res) {
+                        return back()->withErrors(['缩略图片上传失败！'])->withInput();
+                    }
+                }else{
+                    return back()->withErrors([$request->file('thumb_img')->getError()])->withInput();
+                }
+                $thumb_path = '/'.$floder.'/'.$fileName;
+
+            }
+//            else{
+//                return back()->withErrors(['商品缩略图片必须上传!'])->withInput();
+//            }
+            if($request->file('carousel_img')){
+                $carousel_img = '';
+                foreach($request->file('carousel_img') as $k => $v){
+                    if($v->isValid()){
+                        $extension = $v->getClientOriginalExtension();
                         $rule = ['jpg', 'png', 'gif', 'jpeg'];
                         if (!in_array($extension, $rule)) {
                             return back()->withErrors(['图片格式需要为jpg,png,gif格式!'])->withInput();
                         }
-                        $fileName = time() . mt_rand(1, 999) . '.' . $extension;
-                        $res = $request->file('thumb_img')->move($floder, $fileName);
+                        $fileName = time() . mt_rand(1, 999) . '.'. $extension;
+                        $res = $v->move($floder,$fileName);
                         if (!$res) {
-                            return back()->withErrors(['缩略图片上传失败！'])->withInput();
+                            return back()->withErrors(['详情图片上传失败！'])->withInput();
                         }
+                        $carousel_img .= '/'.$floder.'/'.$fileName.',';
                     }else{
-                        return back()->withErrors([$request->file('thumb_img')->getError()])->withInput();
+                        return back()->withErrors([$v->getError()])->withInput();
                     }
-                    $thumb_path = $floder.'/'.$fileName;
 
-                }else{
-                    return back()->withErrors(['商品缩略图片必须上传!'])->withInput();
                 }
+            }
+//            else{
+//                return back()->withErrors(['详情图必须上传！'])->withInput();
+//            }
 
-                if($request->file('carousel_img')){
-                    $carousel_img = '';
-                    foreach($request->file('carousel_img') as $k => $v){
-                        if($v->isValid()){
-                            $extension = $v->getClientOriginalExtension();
-                            $rule = ['jpg', 'png', 'gif', 'jpeg'];
-                            if (!in_array($extension, $rule)) {
-                                return back()->withErrors(['图片格式需要为jpg,png,gif格式!'])->withInput();
-                            }
-                            $fileName = time() . mt_rand(1, 999) . '.'. $extension;
-                            $res = $v->move($floder,$fileName);
-                            if (!$res) {
-                                return back()->withErrors(['详情图片上传失败！'])->withInput();
-                            }
-                            $carousel_img .= $floder.'/'.$fileName.',';
-                        }else{
-                            return back()->withErrors([$v->getError()])->withInput();
-                        }
-
-                    }
-                }else{
-                    return back()->withErrors(['详情图必须上传！'])->withInput();
-                }
+            if (empty($request->id)){
                 $res = Goods::create([
 //                    $request->all()  //另一种添加方式待测试
                     'goods_name'    =>  $request->goods_name,
@@ -145,11 +153,59 @@ class GoodsController extends Controller
 
             }else{
                 //修改
+                $goods = $goods->find($id);
+                if (!empty($thumb_path)) $goods->thumb_img = $thumb_path;
+                if (!empty($carousel_img)) $goods->thumb_img = trim($carousel_img, ',');
+
+                foreach($request->all() as $k => $v){
+                    if ($k != '_token'){
+                        $goods->$k = $v;
+                    }
+                }
+
+                $res = $goods->save();
+
+                if ($res){
+                    return view('Admin.Public.success')->with([
+                        'message'=>'编辑成功！',
+                        'url' =>url('/admin/goodsList'),
+                        'jumpTime'=>2,
+                        'urlname' => '商品列表'
+                    ]);
+                }else{
+                    return back()->withErrors(['商品编辑失败！'])->withInput();
+                }
+
+
             }
 
         }
 
         $cate = (new Category())->tree();
-        return view('Admin.Goods.store', compact('cate'));
+        if(!empty($request->id)){
+            $goods_info = $goods->find($id);
+            $goods_info->carousel_img = explode(',', $goods_info->carousel_img);
+        }else{
+            $goods_info = [];
+        }
+
+        return view('Admin.Goods.store', compact('cate', 'goods_info', 'id'));
+    }
+
+    public function delete(Goods $goods, $id){
+        $info = $goods->find($id);
+
+        $res = $info->delete();
+
+        if ($res){
+            return view('Admin.Public.success')->with([
+                'message'=>'删除成功！',
+                'url' =>url('/admin/goodsList'),
+                'jumpTime'=>2,
+                'urlname' => '商品列表'
+            ]);
+        }else{
+            return back()->withErrors(['删除失败！'])->withInput();
+        }
     }
 }
