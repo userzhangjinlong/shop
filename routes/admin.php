@@ -28,6 +28,11 @@ Route::group(['middleware' => ['authAdmin']], function (){
     Route::get('/cateDel/{id}', 'CategoryController@cateDel')->name('admin.cateDel');
     Route::post('/cateSort', 'CategoryController@cateSort')->name('admin.cateSort');
 
+    //品牌
+    Route::get('/brandList', 'BrandController@index')->name('admin.brandList');
+    Route::match(['get', 'post'], '/brandAdd/{id?}', 'BrandController@store')->name('admin.brandAdd');
+    Route::match(['get', 'post'], '/brandDel/{id}', 'BrandController@delete')->name('admin.brandDel');
+
     //商品
     Route::get('/goodsList', 'GoodsController@index')->name('admin.goodsList');
     Route::match(['get', 'post'], '/goodsAdd/{id?}', 'GoodsController@store')->name('admin.goodsAdd');
