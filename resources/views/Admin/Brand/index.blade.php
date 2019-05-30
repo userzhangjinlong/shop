@@ -13,7 +13,20 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="container">
+
+                <form action="{{ route('admin.brandList') }}" method="get">
+                <div class="col-lg-3">
+                    <label>筛选:</label>
+                    <input type="text" name="keywords" value="{{ $keywords }}" class="form-control input-lg">
+                </div>
+                    <div class="input-group">
+                        <button class="btn btn-primary" type="submit"><i class="icon_search"></i></button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row" style="margin-top: 20px;">
                 <div class="col-lg-12">
                     <section class="panel">
                         <header class="panel-heading">
@@ -31,14 +44,12 @@
                             @if(!empty($list))
                                 @foreach($list as $v)
                                     <tr>
-                                        <td>{{ $v->goods_name }}</td>
-                                        <td>{{ $v->category->name }}</td>
+                                        <td>{{ $v->brand_name }}</td>
                                         <td>{{ $v->created_at }}</td>
-                                        <td>0</td>
+                                        <td><img src="{{ $v->brand_img }}" width="40"></td>
                                         <td>
                                             <div class="btn-group">
-                                                <a class="btn btn-success" href="{{ route('admin.goodsAdd', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
-                                                {{--<a class="btn btn-danger" href="javascript:if (confirm('确认删除?')) location.href='{{ route('admin.cateDel', [$v->id]) }}'"><i class="icon_close_alt2"></i></a>--}}
+                                                <a class="btn btn-success" href="{{ route('admin.brandAdd', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
                                                 <a class="btn btn-danger" data-toggle="modal" data-id="{{ $v->id }}" href="#del">
                                                     <i class="icon_close_alt2"></i>
                                                 </a>
@@ -52,6 +63,9 @@
                             @endif
                             </tbody>
                         </table>
+                        <div class="text-center">
+                        {{ $list->links() }}
+                        </div>
                     </section>
                 </div>
             </div>
@@ -80,28 +94,8 @@
     <script type="text/javascript">
         function del(){
             var id = $('#del').attr('data-delid');
-            var url = '{{ url("admin.goodsDel") }}'+'/'+id;
+            var url = '{{ url("admin.brandDel") }}'+'/'+id;
             window.location.href=url;
         }
-
-        {{--function changeSort(id, obj) {--}}
-        {{--// var num = $(obj).find('input[name="sort"]').val();--}}
-        {{--var num = $(obj).val();--}}
-
-        {{--$.ajax({--}}
-        {{--type: "Post",--}}
-        {{--url: "{{ route('admin.cateSort') }}", //请求地址--}}
-        {{--data: {'id':id,'num':num, '_token':'{{ csrf_token() }}' },--}}
-        {{--dataType:"JSON",--}}
-        {{--success: function(data) {--}}
-        {{--if(data.code == 400){--}}
-        {{--alert(data.msg);--}}
-        {{--}--}}
-        {{--},--}}
-        {{--error: function(err) {--}}
-        {{--}--}}
-        {{--});--}}
-        {{--}--}}
-
     </script>
 @endsection

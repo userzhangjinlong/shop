@@ -53,6 +53,9 @@
                             @endif
                             </tbody>
                         </table>
+                        <div class="text-center">
+                            {{ $list->links() }}
+                        </div>
                     </section>
                 </div>
             </div>
