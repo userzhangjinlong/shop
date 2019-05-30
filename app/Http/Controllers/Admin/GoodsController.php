@@ -84,7 +84,7 @@ class GoodsController extends Controller
                         return back()->withErrors(['图片格式需要为jpg,png,gif格式!'])->withInput();
                     }
                     $fileName = time() . mt_rand(1, 999) . '.' . $extension;
-                    $res = $request->file('thumb_img')->move($floder, $fileName);
+                    $res = $request->file('thumb_img')->move(base_path('public/'.$floder), $fileName);
                     if (!$res) {
                         return back()->withErrors(['缩略图片上传失败！'])->withInput();
                     }
@@ -107,7 +107,7 @@ class GoodsController extends Controller
                             return back()->withErrors(['图片格式需要为jpg,png,gif格式!'])->withInput();
                         }
                         $fileName = time() . mt_rand(1, 999) . '.'. $extension;
-                        $res = $v->move($floder,$fileName);
+                        $res = $v->move(base_path('public/'.$floder),$fileName);
                         if (!$res) {
                             return back()->withErrors(['详情图片上传失败！'])->withInput();
                         }
@@ -154,14 +154,13 @@ class GoodsController extends Controller
             }else{
                 //修改
                 $goods = $goods->find($id);
-                if (!empty($thumb_path)) $goods->thumb_img = $thumb_path;
-                if (!empty($carousel_img)) $goods->thumb_img = trim($carousel_img, ',');
-
                 foreach($request->all() as $k => $v){
                     if ($k != '_token'){
                         $goods->$k = $v;
                     }
                 }
+                if (!empty($thumb_path)) $goods->thumb_img = $thumb_path;
+                if (!empty($carousel_img)) $goods->thumb_img = trim($carousel_img, ',');
 
                 $res = $goods->save();
 

@@ -69,28 +69,25 @@ class BrandController extends Controller
                         return back()->withErrors(['图片格式需要为jpg,png,gif格式!'])->withInput();
                     }
                     $fileName = time() . mt_rand(1, 999) . '.' . $extension;
-                    $res = $request->file('brand_img')->move($floder, $fileName);
+                    $res = $request->file('brand_img')->move(base_path('public/'.$floder), $fileName);
                     if (!$res) {
                         return back()->withErrors(['缩略图片上传失败！'])->withInput();
                     }
                 }else{
                     return back()->withErrors([$request->file('brand_img')->getError()])->withInput();
                 }
+
                 $brand_path = '/'.$floder.'/'.$fileName;
-
             }
-
             if ($request->exists('id')){
                 //编辑
                 $brand = $brand->find($id);
-                if (!empty($brand_path)) $brand->brand_img = $brand_path;
-
                 foreach($request->all() as $k => $v){
                     if ($k != '_token'){
                         $brand->$k = $v;
                     }
                 }
-
+                if (!empty($brand_path)) $brand->brand_img = $brand_path;
                 $res = $brand->save();
 
                 if ($res){

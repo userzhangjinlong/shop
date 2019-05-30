@@ -32,7 +32,7 @@ class CategoryController extends Controller
                         }
                         $extension = $request->file('cateicon')->getClientOriginalExtension();
                         $fileName = time() . mt_rand(1, 999) . '.'. $extension;
-                        $res = $request->file('cateicon')->move($floder,$fileName);
+                        $res = $request->file('cateicon')->move(base_path('public/'.$floder),$fileName);
                         if ($res) $cateicon_path = $floder.'/'.$fileName;
                     }else{
                         return $request->file('cateicon')->getError();
