@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Goods;
 use DemeterChain\C;
@@ -14,11 +15,18 @@ use Illuminate\Support\Facades\Validator;
 
 class GoodsController extends Controller
 {
+    /**
+     * @param Goods $goods
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Goods $goods, Request $request)
     {
         //with 实现多表关联查询获取
         $list = $goods->with(['category' => function ($query){
             $query->select('name','id');
+        },'brand' => function($query_brand){
+            $query_brand->select('id', 'brand_name');
         }]);
         // 关键字过滤
         if($keyword = $request->keyword ?? ''){
@@ -26,10 +34,16 @@ class GoodsController extends Controller
         }
 
 
-        $list = $list->select('id', 'goods_name', 'created_at', 'cate_id')->paginate(20);
+        $list = $list->select('id', 'goods_name', 'created_at', 'cate_id', 'brand_id', 'order')->paginate(20);
         return view('Admin.Goods.index', compact('list'));
     }
 
+    /**
+     * @param Goods $goods
+     * @param Request $request
+     * @param null $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function store(Goods $goods, Request $request, $id = null){
 
         if($request->isMethod('post')){
@@ -127,6 +141,7 @@ class GoodsController extends Controller
 //                    $request->all()  //另一种添加方式待测试
                     'goods_name'    =>  $request->goods_name,
                     'cate_id'       =>  intval($request->cate_id),
+                    'brand_id'       =>  intval($request->brand_id),
                     'desc'          =>  $request->desc,
                     'tags'          =>  $request->tags,
                     'original_price'=>  floatval($request->original_price),
@@ -181,6 +196,7 @@ class GoodsController extends Controller
         }
 
         $cate = (new Category())->tree();
+        $brand = (new Brand())->get(['id', 'brand_name']);
         if(!empty($request->id)){
             $goods_info = $goods->find($id);
             $goods_info->carousel_img = explode(',', $goods_info->carousel_img);
@@ -188,9 +204,14 @@ class GoodsController extends Controller
             $goods_info = [];
         }
 
-        return view('Admin.Goods.store', compact('cate', 'goods_info', 'id'));
+        return view('Admin.Goods.store', compact('cate', 'goods_info', 'id', 'brand'));
     }
 
+    /**
+     * @param Goods $goods
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function delete(Goods $goods, $id){
         $info = $goods->find($id);
 
@@ -206,5 +227,23 @@ class GoodsController extends Controller
         }else{
             return back()->withErrors(['删除失败！'])->withInput();
         }
+    }
+
+    public function goodSort(Goods $goods,Request $request){
+        $good = $goods->find($request->id);
+        if (empty($good)){
+            return response()->json(['code' => 400, 'msg' => '商品信息不存在,请重试']);
+        }
+
+        $good->order = $request->num;
+
+        $res = $good->save();
+
+        if ($res){
+            return response()->json(['code' => 200, 'msg' => 'ok']);
+        }else{
+            return response()->json(['code' => 400, 'msg' => '排序失败请重试']);
+        }
+
     }
 }

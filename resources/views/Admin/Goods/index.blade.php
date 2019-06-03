@@ -25,6 +25,7 @@
                             <tr>
                                 <th><i class="icon_menu"></i> 名称</th>
                                 <th><i class="icon_menu"></i> 分类名称</th>
+                                <th><i class="icon_menu"></i> 品牌名称</th>
                                 <th><i class="icon_calendar"></i> 创建日期</th>
                                 <th><i class="icon_laptop"></i> 排序</th>
                                 <th><i class="icon_cogs"></i> 操作</th>
@@ -34,8 +35,9 @@
                                 <tr>
                                     <td>{{ $v->goods_name }}</td>
                                     <td>{{ $v->category->name }}</td>
+                                    <td>{{ $v->brand->brand_name }}</td>
                                     <td>{{ $v->created_at }}</td>
-                                    <td>0</td>
+                                    <td><input type="number" name="order" value="{{ $v->order }}" style="border: none;width:40px;" onblur="changeOrder({{ $v->id }}, this)"></td>
                                     <td>
                                         <div class="btn-group">
                                             <a class="btn btn-success" href="{{ route('admin.goodsAdd', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
@@ -88,24 +90,24 @@
             window.location.href=url;
         }
 
-        {{--function changeSort(id, obj) {--}}
-            {{--// var num = $(obj).find('input[name="sort"]').val();--}}
-            {{--var num = $(obj).val();--}}
+        function changeOrder(id, obj) {
+            var num = $(obj).val();
 
-            {{--$.ajax({--}}
-                {{--type: "Post",--}}
-                {{--url: "{{ route('admin.cateSort') }}", //请求地址--}}
-                {{--data: {'id':id,'num':num, '_token':'{{ csrf_token() }}' },--}}
-                {{--dataType:"JSON",--}}
-                {{--success: function(data) {--}}
-                    {{--if(data.code == 400){--}}
-                        {{--alert(data.msg);--}}
-                    {{--}--}}
-                {{--},--}}
-                {{--error: function(err) {--}}
-                {{--}--}}
-            {{--});--}}
-        {{--}--}}
+            $.ajax({
+                type: "post",
+                url: "{{ route('admin.goodSort') }}", //请求地址
+                data: {'id':id,'num':num, '_token':'{{ csrf_token() }}' },
+                dataType:"JSON",
+                success: function(data) {
+                    if(data.code == 400){
+                        alert(data.msg);
+                        return false;
+                    }
+                },
+                error: function(err) {
+                }
+            });
+        }
 
     </script>
 @endsection

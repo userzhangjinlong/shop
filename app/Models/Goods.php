@@ -39,5 +39,13 @@ class Goods extends Model
         return $this->hasOne(Category::class, 'id', 'cate_id');
     }
 
+    /**
+     * 关联品牌
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function brand(){
+        return $this->hasOne(Brand::class, 'id', 'brand_id');
+    }
 
 }

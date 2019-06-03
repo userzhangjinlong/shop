@@ -52,6 +52,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label for="cname" class="control-label col-lg-2">品牌名称</label>
+                                        <div class="col-lg-10">
+                                            <select name="brand_id" class="form-control m-bot15">
+                                                <option value="0">无品牌</option>
+                                                @foreach($brand as $v)
+                                                    <option @if($goods_info && $goods_info->brand_id == $v->id) selected @endif value="{{ $v->id }}">{{ $v->brand_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
 
                                     <div class="form-group ">
                                         <label for="cname" class="control-label col-lg-2">商品描述</label>
