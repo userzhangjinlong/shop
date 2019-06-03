@@ -324,6 +324,17 @@
                 <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <i class="icon_grid-3x3"></i>
+                        <span>广告管理</span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="" href="{{ route('admin.adverList') }}">广告列表</a></li>
+                        <li><a class="" href="{{ route('admin.adverAdd') }}">新增广告</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_grid-3x3"></i>
                         <span>品牌管理</span>
                         <span class="menu-arrow arrow_carrot-right"></span>
                     </a>
