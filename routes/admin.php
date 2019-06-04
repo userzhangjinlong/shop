@@ -39,12 +39,15 @@ Route::group(['middleware' => ['authAdmin']], function (){
     Route::match(['get', 'post'], '/goodsDel/{id}', 'GoodsController@delete')->name('admin.goodsDel');
     Route::post('/goodSort', 'GoodsController@goodSort')->name('admin.goodSort');
 
-    //广告为管理
+    //广告位管理
     Route::get('/adverList', 'AdverController@index')->name('admin.adverList');
     Route::match(['get', 'post'], '/adverAdd/{id?}', 'AdverController@store')->name('admin.adverAdd');
+    Route::match(['get', 'post'], '/adverDel/{id}', 'AdverController@delete')->name('admin.adverDel');
 
     //banner管理
     Route::get('/bannerList', 'BannerController@index')->name('admin.bannerList');
+    Route::match(['get', 'post'], '/bannerAdd/{id?}', 'BannerController@store')->name('admin.bannerAdd');
+    Route::match(['get', 'post'], '/bannerDel/{id}', 'BannerController@delete')->name('admin.bannerDel');
 
     //ckedtior 编辑器图片上传
     Route::any('/uploaddditorimage/{path?}', 'PublicController@upload')->name('admin.uploaddditorimage');

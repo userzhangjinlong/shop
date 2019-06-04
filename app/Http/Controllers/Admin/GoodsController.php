@@ -229,6 +229,11 @@ class GoodsController extends Controller
         }
     }
 
+    /**
+     * @param Goods $goods
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function goodSort(Goods $goods,Request $request){
         $good = $goods->find($request->id);
         if (empty($good)){

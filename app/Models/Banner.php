@@ -12,4 +12,14 @@ class Banner extends Model
     protected $fillable = [
         'adver_id', 'banner_name', 'banner_img', 'banner_desc'
     ];
+
+    /**
+     * 关联广告位表
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function  adver(){
+        return $this->hasOne(Adver::class, 'id', 'adver_id');
+    }
+
 }
