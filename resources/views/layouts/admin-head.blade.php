@@ -9,7 +9,7 @@
     <meta name="keyword" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'LAN商城') }}</title>
+    <title>{{ config('app.name', 'LAN商城-后台管理系统') }}</title>
 
     <!-- Bootstrap CSS -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
