@@ -90,12 +90,55 @@ class Category extends Model
     }
 
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getOneCate($id){
         return $this->find($id);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function getGoodsList(){
         return $this->belongsToMany(Goods::class, 'goods', 'cate_id');
+    }
+
+    /**
+     * @return array
+     */
+    public function sharedDataCate(){
+        $list = $this->orderby('sort', 'asc')->orderby('id', 'asc')->get(['id', 'pid', 'name']);
+        return $this->showData($list, 0);
+    }
+
+    /**
+     * @param $items
+     * @param $pid
+     * @return array
+     */
+    public function showData($items,$pid){
+        $tree = array();                                //每次都声明一个新数组用来放子元素
+        foreach ($items as $v) {
+            if ($v['pid'] == $pid) {                      //匹配子记录
+                $v['children'] = $this->showData($items, $v['id']); //递归获取子记录
+                if ($v['children'] == null) {
+                    unset($v['children']);             //如果子元素为空则unset()
+                }
+                $tree[] = $v;                           //将记录存入新数组
+            }
+        }
+        return $tree;
+    }
+
+    /**
+     * 写了一个多余代码 用于让我明白服务提供器所有视图传递多个变量的方法
+     *
+     * @return mixed
+     */
+    public function getOneStepCate(){
+        return $this->where('pid', 0)->get(['id', 'name']);
     }
 
 }

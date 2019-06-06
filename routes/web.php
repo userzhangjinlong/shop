@@ -10,19 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-//
-//Auth::routes();
-//
-//Route::get('/home', 'HomeController@index')->name('home');
-
-
+//, 'guestAuth' 前台商城用户登录中间键
 Route::group(['middleware' => 'web'], function (){
-//    Auth::routes();
 
+    //首页
     Route::get('/', 'IndexController@index')->name('index');
     Route::get('/index', 'IndexController@index');
 
@@ -31,5 +22,4 @@ Route::group(['middleware' => 'web'], function (){
 //    Route::get('home/logout', 'Auth\AuthController@logout');
 //    Route::any('home/register', 'Auth\AuthController@register');
 
-    Route::get('/home', 'HomeController@index')->name('home');
 });

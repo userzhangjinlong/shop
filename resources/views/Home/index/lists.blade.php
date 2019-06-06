@@ -6,7 +6,9 @@
             <div class="row">
                 <div class="col-xl-6 offset-xl-2">
                     <div class="main-slider mt-30 mt-sm-0">
-                        <div class="slider-single bg-1">
+                        @foreach($banner_list as $v)
+                        <div class="slider-single bg-1" style="background-image: {{ $v->banner_img }} !important;">
+                            {{--<img src="{{ $v->banner_img }}">--}}
                             <div class="d-table">
                                 <div class="slider-caption"><h4>clothing</h4>
                                     <h2 class="cssanimation leDoorCloseLeft sequence">Men Collections</h2>
@@ -17,48 +19,21 @@
                                     <a href="#" class="btn-common mt-43">buy now</a></div>
                             </div>
                         </div>
-                        <div class="slider-single bg-2">
-                            <div class="d-table">
-                                <div class="slider-caption"><h4>clothing</h4>
-                                    <h2 class="cssanimation leDoorCloseLeft sequence">Gadgets</h2>
-                                    <p>The 10 Best Man Collection 2018</p>
-                                    <div class="slider-product-price">
-                                        <del>$120.00</del>
-                                        <span>$295.00</span></div>
-                                    <a href="#" class="btn-common mt-43">buy now</a></div>
-                            </div>
-                        </div>
+                        @endforeach
+                        {{--<div class="slider-single bg-2">--}}
+                            {{--<div class="d-table">--}}
+                                {{--<div class="slider-caption"><h4>clothing</h4>--}}
+                                    {{--<h2 class="cssanimation leDoorCloseLeft sequence">Gadgets</h2>--}}
+                                    {{--<p>The 10 Best Man Collection 2018</p>--}}
+                                    {{--<div class="slider-product-price">--}}
+                                        {{--<del>$120.00</del>--}}
+                                        {{--<span>$295.00</span></div>--}}
+                                    {{--<a href="#" class="btn-common mt-43">buy now</a></div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
                     </div>
                 </div>
-                <div class="col-xl-4">
-                    <div class="row mt-30">
-                        <div class="col-lg-6 col-sm-6 pl-05">
-                            <div class="banner-sm hover-effect"><img src="{{ asset('home/images/banners/small/1.jpg') }}" alt=""/>
-                                <div class="banner-info"><h4>Clothing</h4>
-                                    <p>Extra <strong>30%</strong><br/><strong>Off</strong>All <br/>Sale Styles</p></div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-6 pl-05">
-                            <div class="banner-sm hover-effect mt-sm-20"><img src="{{ asset('home/images/banners/small/2.jpg') }}"
-                                                                              alt=""/>
-                                <div class="banner-info"><h4>Tech</h4>
-                                    <p>Riley <strong>Smart</strong><br/><strong>Home</strong>Patrol <br/>Robot</p></div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-6 pl-05">
-                            <div class="banner-sm hover-effect mt-20"><img src="{{ asset('home/images/banners/small/3.jpg') }}" alt=""/>
-                                <div class="banner-info"><h4>Beauty</h4>
-                                    <p>20% Off or <br/>more <strong>Beauty <br/>Product</strong></p></div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-6 pl-05">
-                            <div class="banner-sm hover-effect mt-20"><img src="{{ asset('home/images/banners/small/4.jpg') }}" alt=""/>
-                                <div class="banner-info"><h4>Electronics</h4>
-                                    <p>Globe Electric<br/><strong>House & <br/>Appliances</strong></p></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div><!--slider-area end--><!--products-area start-->

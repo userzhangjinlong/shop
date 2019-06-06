@@ -8,7 +8,7 @@
     <meta name="keyword" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="apple-touch-icon" href="icon.png"><!-- Place favicon.ico in the root directory -->
+    <link rel="apple-touch-icon" href="{{ asset('home/images/logo.png') }}}"><!-- Place favicon.ico in the root directory -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- bootstrap v4.0.0 -->
     <link rel="stylesheet" href="{{ asset('home/css/bootstrap.min.css') }}"><!-- fontawesome-icons css -->
@@ -40,41 +40,11 @@
                     <div class="col-lg-6">
                         <div class="topbar-left">
                             <ul class="list-none">
-                                <li>SHOP EVENTS & SAVE UP TO <span>65% OFF!</span></li>
-                                <li>Call Us: <span>001-1234-88888</span></li>
+                                <li>联系我们: <span>13888888888</span></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="topbar-right">
-                            <div class="social-icons pull-right"><a href="#"><i class="fa fa-facebook"></i></a><a
-                                        href="#"><i class="fa fa-twitter"></i></a><a href="#"><i
-                                            class="fa fa-instagram"></i></a><a href="#"><i class="fa fa-youtube"></i></a></div>
-                            <div class="currency-bar lang-bar pull-right">
-                                <ul>
-                                    <li><a href="#"><img src="{{ asset('home/images/icons/gb.png') }}" alt=""/>English <i
-                                                    class="fa fa-angle-down"></i></a>
-                                        <ul>
-                                            <li><a href="#">French</a></li>
-                                            <li><a href="#">Chinese</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><span class="br">|</span></li>
-                                </ul>
-                            </div>
-                            <div class="currency-bar pull-right">
-                                <ul>
-                                    <li><a href="#">USD <i class="fa fa-angle-down"></i></a>
-                                        <ul>
-                                            <li><a href="#">EUR</a></li>
-                                            <li><a href="#">AUD</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><span>|</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div><!--header-bottom-->
@@ -82,21 +52,13 @@
             <div class="container-fluid">
                 <div class="row align-items-center">
                     <div class="col-lg-2">
-                        <div class="logo"><a href="index.html"><img src="{{ asset('home/images/logo.png') }}" alt="logo"/></a></div>
+                        <div class="logo"><a href="/"><img src="{{ asset('home/images/logo.png') }}" alt="logo"/></a></div>
                     </div>
                     <div class="col-lg-8">
                         <div class="mainmenu">
                             <nav>
                                 <ul>
-                                    <li><a href="index.html">Home <b class="caret"></b></a>
-                                        <ul class="submenu">
-                                            <li><a href="index.html">Home Version 1</a></li>
-                                            <li><a href="index-2.html">Home Version 2</a></li>
-                                            <li><a href="index-3.html">Home Version 3</a></li>
-                                            <li><a href="index-4.html">Home Version 4</a></li>
-                                            <li><a href="index-5.html">Home Version 5</a></li>
-                                            <li><a href="index-6.html">Home Version 6</a></li>
-                                        </ul>
+                                    <li><a href="/">首页</a>
                                     </li>
                                     <li><a href="#"><span class="text-label label-featured">Featured</span> Shop <b
                                                     class="caret"></b></a>
@@ -173,94 +135,28 @@
                     <div class="col-xl-2 col-lg-3">
                         <div class="collapse-menu mt-0">
                             <ul>
-                                <li><a href="javascript:void(0);" class="vm-menu"><i class="fa fa-navicon"></i><span>All Departments</span></a>
+                                <li><a href="javascript:void(0);" class="vm-menu"><i class="fa fa-navicon"></i><span>所有分类</span></a>
                                     <ul class="vm-dropdown">
-                                        <li><a href="#"><i class="fa fa-laptop"></i>Computer <b class="caret"></b></a>
+                                        @foreach($cate_list as $v)
+                                        <li><a href="{{ $v->id }}"><i class="fa fa-laptop"></i>{{ $v->name }} @if(!empty($v->children))<b class="caret"></b>@endif</a>
                                             <ul class="mega-menu">
-                                                <li class="megamenu-single"><span
-                                                            class="mega-menu-title">Shop Page</span>
-                                                    <ul>
-                                                        <li><a href="#">Products Block Top</a></li>
-                                                        <li><a href="#">Products Block Bottom</a></li>
-                                                        <li><a href="#">Shop Grid 5 Column</a></li>
-                                                        <li><a href="#">Shop List</a></li>
-                                                        <li><a href="#">Shop width Normal</a></li>
-                                                        <li><a href="#">Shop List Normal</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="megamenu-single"><span
-                                                            class="mega-menu-title">Featured</span>
-                                                    <ul>
-                                                        <li><a href="#">Thumbnails Left</a></li>
-                                                        <li><a href="#">Thumbnails Right</a></li>
-                                                        <li><a href="#">Thumbnails Bottom</a></li>
-                                                        <li><a href="#">Thumbnails Full</a></li>
-                                                        <li><a href="#">Single 2 Colums</a></li>
-                                                        <li><a href="#">Tabs Content</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="megamenu-single"><span
-                                                            class="mega-menu-title">Shop Page</span>
-                                                    <ul>
-                                                        <li><a href="#">Simple Product</a></li>
-                                                        <li><a href="#">Grouped Product</a></li>
-                                                        <li><a href="#">Variable Product</a></li>
-                                                        <li><a href="#">External Product</a></li>
-                                                        <li><a href="#">My account</a></li>
-                                                        <li><a href="#">Checkout</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="megamenu-single"><span
-                                                            class="mega-menu-title">Features</span>
-                                                    <ul>
-                                                        <li><a href="#">Detail with Video</a></li>
-                                                        <li><a href="#">Variations Swatches</a></li>
-                                                        <li><a href="#">With Countdown Timer</a></li>
-                                                        <li><a href="#">Catalog Mode</a></li>
-                                                    </ul>
-                                                </li>
+                                                @if(!empty($v->children))
+                                                    @foreach($v->children as $vv)
+                                                    <li class="megamenu-single"><span
+                                                                class="mega-menu-title">{{ $vv->name }}</span>
+                                                        <ul>
+                                                            @if(!empty($vv->children))
+                                                                @foreach($vv->children as $vvv)
+                                                                <li><a href="{{ $vvv->id }}">{{ $vvv->name }}</a></li>
+                                                                @endforeach
+                                                            @endif
+                                                        </ul>
+                                                    </li>
+                                                    @endforeach
+                                                @endif
                                             </ul>
                                         </li>
-                                        <li><a href="#"><i class="fa fa-desktop"></i>TV & Smart box <b
-                                                        class="caret"></b></a>
-                                            <ul class="mega-menu">
-                                                <li class="megamenu-single"><span
-                                                            class="mega-menu-title">Shop Page</span>
-                                                    <ul>
-                                                        <li><a href="#">Products Block Top</a></li>
-                                                        <li><a href="#">Products Block Bottom</a></li>
-                                                        <li><a href="#">Shop Grid 5 Column</a></li>
-                                                        <li><a href="#">Shop List</a></li>
-                                                        <li><a href="#">Shop width Normal</a></li>
-                                                        <li><a href="#">Shop List Normal</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="megamenu-single"><span
-                                                            class="mega-menu-title">Featured</span>
-                                                    <ul>
-                                                        <li><a href="#">Thumbnails Left</a></li>
-                                                        <li><a href="#">Thumbnails Right</a></li>
-                                                        <li><a href="#">Thumbnails Bottom</a></li>
-                                                        <li><a href="#">Thumbnails Full</a></li>
-                                                        <li><a href="#">Single 2 Colums</a></li>
-                                                        <li><a href="#">Detail with Accessories</a></li>
-                                                        <li><a href="#">Tabs Content</a></li>
-                                                        <li><a href="#">Accordion Tabs</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#"><i class="fa fa-camera"></i>Camera & Photography</a></li>
-                                        <li><a href="#"><i class="fa fa-headphones"></i>Headphones</a></li>
-                                        <li><a href="#"><i class="fa fa-music"></i>Musical Instruments</a></li>
-                                        <li><a href="#"><i class="fa fa-mobile"></i>Smart phone & Tablets</a></li>
-                                        <li><a href="#"><i class="fa fa-flash"></i>Accessories</a></li>
-                                        <li><a href="#"><i class="fa fa-microphone"></i>Home Audio & Theater</a></li>
-                                        <li><a href="#"><i class="fa fa-print"></i>Printer</a></li>
-                                        <li><a href="#"><i class="fa fa-fax"></i>Fax machine</a></li>
-                                        <li><a href="#"><i class="fa fa-spoon"></i>Household goods</a></li>
-                                        <li><a href="#"><i class="fa fa-clock-o"></i>Watch</a></li>
-                                        <li><a href="#"><i class="fa fa-random"></i>Other</a></li>
+                                        @endforeach
                                     </ul>
                                 </li>
                             </ul>
@@ -268,13 +164,12 @@
                     </div>
                     <div class="col-xl-6 col-lg-6">
                         <div class="search-box"><select>
-                                <option>All Categories</option>
-                                <option>Computer</option>
-                                <option>TV & Smart box</option>
-                                <option>Camera & Photography</option>
-                                <option>Headphones</option>
+                                <option value="0">所有分类</option>
+                                @foreach($cate_One as $v)
+                                <option value="{{ $v->id }}">{{ $v->name }}</option>
+                                @endforeach
                             </select><input type="text" placeholder="What do you need?"/>
-                            <button>Search</button>
+                            <button>搜索</button>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-3">
@@ -323,7 +218,7 @@
         <div class="container-fluid"><!--logo and cart-->
             <div class="row align-items-center">
                 <div class="col-sm-4 col-6">
-                    <div class="logo"><a href="index.html"><img src="{{ asset('home/images/logo.png') }}" alt="logo"/></a></div>
+                    <div class="logo"><a href="/"><img src="{{ asset('home/images/logo.png') }}" alt="logo"/></a></div>
                 </div>
                 <div class="col-sm-8 col-6">
                     <div class="mini-cart text-right">
@@ -365,30 +260,21 @@
             <div class="row align-items-center">
                 <div class="col-sm-12">
                     <div class="search-box mt-sm-15"><select>
-                            <option>All Categories</option>
-                            <option>Computer</option>
-                            <option>TV & Smart box</option>
-                            <option>Camera & Photography</option>
-                            <option>Headphones</option>
+                            <option value="0">所有分类</option>
+                            @foreach($cate_One as $v)
+                                <option value="{{ $v->id }}">{{ $v->name }}</option>
+                            @endforeach
                         </select><input type="text" placeholder="What do you need?"/>
-                        <button>Search</button>
+                        <button>搜索</button>
                     </div>
                 </div>
             </div><!--site-menu-->
             <div class="row mt-sm-10">
-                <div class="col-lg-12"><a href="#my-menu" class="mmenu-icon pull-left"><i class="fa fa-bars"></i></a>
+                <div class="col-lg-12"><a href="/" class="mmenu-icon pull-left"><i class="fa fa-bars"></i></a>
                     <div class="mainmenu">
                         <nav id="my-menu">
                             <ul>
-                                <li><a href="index.html">Home <b class="caret"></b></a>
-                                    <ul class="submenu">
-                                        <li><a href="index.html">Home Version 1</a></li>
-                                        <li><a href="index-2.html">Home Version 2</a></li>
-                                        <li><a href="index-3.html">Home Version 3</a></li>
-                                        <li><a href="index-4.html">Home Version 4</a></li>
-                                        <li><a href="index-5.html">Home Version 5</a></li>
-                                        <li><a href="index-6.html">Home Version 6</a></li>
-                                    </ul>
+                                <li><a href="/">Home</a>
                                 </li>
                                 <li><a href="#"><span class="text-label label-featured">Featured</span> Shop <b
                                                 class="caret"></b></a>
@@ -455,86 +341,25 @@
                         <ul>
                             <li><a href="javascript:void(0);" class="vm-menu"><i class="fa fa-navicon"></i><span>All Departments</span></a>
                                 <ul class="vm-dropdown">
-                                    <li><a href="#"><i class="fa fa-laptop"></i>Computer <b class="caret"></b></a>
+                                    @foreach($cate_list as $v)
+                                    <li><a href="{{ $v->id }}"><i class="fa fa-laptop"></i>{{ $v->name }} @if(!empty($v->children))<b class="caret"></b>@endif</a>
                                         <ul class="mega-menu">
-                                            <li class="megamenu-single"><span class="mega-menu-title">Shop Page</span>
-                                                <ul>
-                                                    <li><a href="#">Products Block Top</a></li>
-                                                    <li><a href="#">Products Block Bottom</a></li>
-                                                    <li><a href="#">Shop Grid 5 Column</a></li>
-                                                    <li><a href="#">Shop List</a></li>
-                                                    <li><a href="#">Shop width Normal</a></li>
-                                                    <li><a href="#">Shop List Normal</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="megamenu-single"><span class="mega-menu-title">Featured</span>
-                                                <ul>
-                                                    <li><a href="#">Thumbnails Left</a></li>
-                                                    <li><a href="#">Thumbnails Right</a></li>
-                                                    <li><a href="#">Thumbnails Bottom</a></li>
-                                                    <li><a href="#">Thumbnails Full</a></li>
-                                                    <li><a href="#">Single 2 Colums</a></li>
-                                                    <li><a href="#">Tabs Content</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="megamenu-single"><span class="mega-menu-title">Shop Page</span>
-                                                <ul>
-                                                    <li><a href="#">Simple Product</a></li>
-                                                    <li><a href="#">Grouped Product</a></li>
-                                                    <li><a href="#">Variable Product</a></li>
-                                                    <li><a href="#">External Product</a></li>
-                                                    <li><a href="#">My account</a></li>
-                                                    <li><a href="#">Checkout</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="megamenu-single"><span class="mega-menu-title">Features</span>
-                                                <ul>
-                                                    <li><a href="#">Detail with Video</a></li>
-                                                    <li><a href="#">Variations Swatches</a></li>
-                                                    <li><a href="#">With Countdown Timer</a></li>
-                                                    <li><a href="#">Catalog Mode</a></li>
-                                                </ul>
-                                            </li>
+                                            @if(!empty($v->children))
+                                                @foreach($v->children as $vv)
+                                                    <li class="megamenu-single"><span class="mega-menu-title">{{ $vv->name }}</span>
+                                                        <ul>
+                                                            @if(!empty($vv->children))
+                                                                @foreach($vv->children as $vvv)
+                                                                    <li><a href="{{ $vvv->id }}">{{ $vvv->name }}</a></li>
+                                                                @endforeach
+                                                            @endif
+                                                        </ul>
+                                                    </li>
+                                                @endforeach
+                                            @endif
                                         </ul>
                                     </li>
-                                    <li><a href="#"><i class="fa fa-desktop"></i>TV & Smart box <b
-                                                    class="caret"></b></a>
-                                        <ul class="mega-menu">
-                                            <li class="megamenu-single"><span class="mega-menu-title">Shop Page</span>
-                                                <ul>
-                                                    <li><a href="#">Products Block Top</a></li>
-                                                    <li><a href="#">Products Block Bottom</a></li>
-                                                    <li><a href="#">Shop Grid 5 Column</a></li>
-                                                    <li><a href="#">Shop List</a></li>
-                                                    <li><a href="#">Shop width Normal</a></li>
-                                                    <li><a href="#">Shop List Normal</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="megamenu-single"><span class="mega-menu-title">Featured</span>
-                                                <ul>
-                                                    <li><a href="#">Thumbnails Left</a></li>
-                                                    <li><a href="#">Thumbnails Right</a></li>
-                                                    <li><a href="#">Thumbnails Bottom</a></li>
-                                                    <li><a href="#">Thumbnails Full</a></li>
-                                                    <li><a href="#">Single 2 Colums</a></li>
-                                                    <li><a href="#">Detail with Accessories</a></li>
-                                                    <li><a href="#">Tabs Content</a></li>
-                                                    <li><a href="#">Accordion Tabs</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#"><i class="fa fa-camera"></i>Camera & Photography</a></li>
-                                    <li><a href="#"><i class="fa fa-headphones"></i>Headphones</a></li>
-                                    <li><a href="#"><i class="fa fa-music"></i>Musical Instruments</a></li>
-                                    <li><a href="#"><i class="fa fa-mobile"></i>Smart phone & Tablets</a></li>
-                                    <li><a href="#"><i class="fa fa-flash"></i>Accessories</a></li>
-                                    <li><a href="#"><i class="fa fa-microphone"></i>Home Audio & Theater</a></li>
-                                    <li><a href="#"><i class="fa fa-print"></i>Printer</a></li>
-                                    <li><a href="#"><i class="fa fa-fax"></i>Fax machine</a></li>
-                                    <li><a href="#"><i class="fa fa-spoon"></i>Household goods</a></li>
-                                    <li><a href="#"><i class="fa fa-clock-o"></i>Watch</a></li>
-                                    <li><a href="#"><i class="fa fa-random"></i>Other</a></li>
+                                    @endforeach
                                 </ul>
                             </li>
                         </ul>
