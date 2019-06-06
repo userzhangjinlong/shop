@@ -14,9 +14,6 @@ class IndexController extends Controller
         //获取banner图片
         $banner_list = $banner->where('adver_id', 1)->select('banner_img')->get();
 
-        //获取分类
-        $category_list = $category->tree();
-
-        return view('Home.index.lists', compact('banner_list', 'category_list'));
+        return view('Home.index.lists', compact('banner_list'));
     }
 }
