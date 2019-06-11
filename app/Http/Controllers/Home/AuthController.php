@@ -69,15 +69,16 @@ class AuthController extends Controller
 
     public function register(Request $request){
         $rule = [
-            'phone'        =>      'required',
+            'phone'        =>      ['required', new CheckMobile, 'unique:users'],
             'email'           =>      'required',
-            'password'    =>      'required',
+            'password'    =>      'required|min:6',
             'confirm_password'     =>      'required',
             'yzm'             =>      'required'
         ];
 
         $message = [
             'phone.required'                =>  '手机号码必填',
+            'phone.unique'              =>  '手机号码已经被注册啦',
             'email.required'              =>  '邮箱必填',
             'password.required'       =>  '密码必填',
             'confirm_password.required'        =>  '确认密码必填',
@@ -89,9 +90,16 @@ class AuthController extends Controller
             return back()->withErrors($validate->errors())->withInput();
         }
 
-        $info = User::where('phone', $request->phone)->first();
-        if (!empty($info)){
-            return back()->withErrors('手机号码已被注册')->withInput();
+        $key = 'captcha-'.$request->phone;
+        if (empty(Cache::get($key))){
+            return back()->withErrors('验证码已过期')->withInput();
+        }
+        if ($request->yzm != Cache::get($key)){
+            return back()->withErrors('验证码错误')->withInput();
+        }
+
+        if ($request->password != $request->confirm_password){
+            return back()->withErrors('两次输入的密码不一致')->withInput();
         }
 
         $res = User::create([
@@ -148,7 +156,7 @@ class AuthController extends Controller
         $phar = new PhraseBuilder(5, '0123456789');
         $captchaBuilder = new CaptchaBuilder(null, $phar);
         $captcha = $captchaBuilder->build();//创建验证码图片
-        $key = 'captcha-'.$request->mobile;
+        $key = 'captcha-'.$request->phone;
         $expiredAt = now()->addMinutes(15);//15分钟后过期
 
         //将指定手机号码的验证码存入缓存 并载入过期时间
