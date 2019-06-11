@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 class IndexController extends Controller
 {
     public function index(Banner $banner, Category $category){
-
         //获取banner图片
         $banner_list = $banner->where('adver_id', 1)->select('banner_img')->get();
 

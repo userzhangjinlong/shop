@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBrandsTable extends Migration
+class AddphoneToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateBrandsTable extends Migration
      */
     public function up()
     {
-        Schema::create('brands', function (Blueprint $table) {
-            $table->increments('id');
-            $table->char('brand_name', 20);
-            $table->string('brand_desc')->default('');
-            $table->string('brand_img');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->char('phone', 11)->unique();
         });
     }
 
@@ -29,6 +25,8 @@ class CreateBrandsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brands');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }

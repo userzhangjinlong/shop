@@ -17,6 +17,12 @@ Route::group(['middleware' => 'web'], function (){
     Route::get('/', 'IndexController@index')->name('index');
     Route::get('/index', 'IndexController@index');
 
+    Route::get('/login', 'AuthController@showLoginForm')->name('web.login');
+    Route::post('/login', 'AuthController@login')->name('web.loginc');
+    Route::get('/register', 'AuthController@showRegisterForm')->name('web.reg');
+    Route::post('/register', 'AuthController@register')->name('web.register');
+    Route::post('/yzm','AuthController@yzm')->name('web.yzm');
+
     //前台用户
 //    Route::any('home/login', 'Auth\AuthController@login');
 //    Route::get('home/logout', 'Auth\AuthController@logout');

@@ -123,8 +123,7 @@
                         </div>
                     </div>
                     <div class="col-lg-2">
-                        <div class="register-login pull-right"><a href="#">Register</a><span>/</span><a href="#">Sign
-                                in</a></div>
+                        <div class="register-login pull-right"><a href="{{ route('web.reg') }}">注册</a><span>/</span><a href="{{ route('web.login') }}">登录</a></div>
                     </div>
                 </div>
             </div>
@@ -339,7 +338,7 @@
                     </div><!--category-->
                     <div class="collapse-menu mt-0 pull-right">
                         <ul>
-                            <li><a href="javascript:void(0);" class="vm-menu"><i class="fa fa-navicon"></i><span>All Departments</span></a>
+                            <li><a href="javascript:void(0);" class="vm-menu"><i class="fa fa-navicon"></i><span>所有分类</span></a>
                                 <ul class="vm-dropdown">
                                     @foreach($cate_list as $v)
                                     <li><a href="{{ $v->id }}"><i class="fa fa-laptop"></i>{{ $v->name }} @if(!empty($v->children))<b class="caret"></b>@endif</a>
@@ -458,6 +457,7 @@
 <script src="{{ asset('home/js/venobox.min.js') }}"></script><!-- plugins js -->
 <script src="{{ asset('home/js/plugins.js') }}"></script><!-- main js -->
 <script src="{{ asset('home/js/main.js') }}"></script><!-- Modal -->
+@yield('script')
 <div class="modal fade" id="quick-view" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
