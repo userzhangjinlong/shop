@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Events\SendSms;
 use App\Http\Middleware\GuestAuth;
 use App\Rules\CheckMobile;
 use App\User;
+use Gregwar\Captcha\CaptchaBuilder;
 use Gregwar\Captcha\PhraseBuilder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -144,14 +146,16 @@ class AuthController extends Controller
             return response()->json(['code' => 400, 'msg' => $validate->errors()]);
         }
         $phar = new PhraseBuilder(5, '0123456789');
+        $captchaBuilder = new CaptchaBuilder(null, $phar);
+        $captcha = $captchaBuilder->build();//创建验证码图片
         $key = 'captcha-'.$request->mobile;
         $expiredAt = now()->addMinutes(15);//15分钟后过期
 
         //将指定手机号码的验证码存入缓存 并载入过期时间
-        Cache::put($key, $phar, $expiredAt);
+        Cache::put($key, $captcha->getPhrase(), $expiredAt);
 
-        //这里写如第三方的短信发送监听器
-
+        //分发发送短信时间 监听器
+        event(new SendSms($request->phone, $captcha->getPhrase()));
 
         return response()->json(['code' => 200, 'msg' => 'ok']);
     }
