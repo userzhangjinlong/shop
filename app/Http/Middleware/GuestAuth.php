@@ -18,7 +18,7 @@ class GuestAuth extends Auth
     public function handle($request, Closure $next, $guard = 'web')
     {
         if (Auth::guard($guard)->guest()) {
-            return redirect('home/login');
+            return redirect()->route('web.login');
         }
 
         return $next($request);

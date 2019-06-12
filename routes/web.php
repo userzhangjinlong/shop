@@ -20,10 +20,14 @@ Route::group(['middleware' => 'web'], function (){
     //登录注册
     Route::get('/login', 'AuthController@showLoginForm')->name('web.login');
     Route::post('/login', 'AuthController@login')->name('web.loginc');
-    Route::get('/logout', 'AuthController@logout')->name('web.logout');
     Route::get('/register', 'AuthController@showRegisterForm')->name('web.reg');
     Route::post('/register', 'AuthController@register')->name('web.register');
     Route::post('/yzm','AuthController@yzm')->name('web.yzm');
+
+    Route::group(['middleware' => 'guestAuth'], function(){
+        //需要登录的路由
+        Route::get('/logout', 'AuthController@logout')->name('web.logout');
+    });
 
     //前台用户
 //    Route::any('home/login', 'Auth\AuthController@login');
