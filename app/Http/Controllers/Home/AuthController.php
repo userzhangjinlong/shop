@@ -46,17 +46,32 @@ class AuthController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function login(Request $request){
-        $this->validate($request, [
-            $this->username() => 'required|string',
-            'password' => 'required|string',
-        ]);
+        $rule = [
+            'phone'        =>      ['required', new CheckMobile],
+            'password'    =>      'required|min:6',
+        ];
+
+        $message = [
+            'phone.required'                =>  '手机号码必填',
+            'password.required'       =>  '密码必填',
+            'password.min'              =>  '密码不能小于6位数'
+        ];
+        $validate = Validator::make($request->all(), $rule, $message);
+
+        if (!$validate->passes()) {
+            return back()->withErrors($validate->errors())->withInput();
+        }
+//        $this->validate($request, [
+//            $this->username() => 'required|string',
+//            'password' => 'required|string',
+//        ]);
         if (GuestAuth::guard('web')->attempt($this->validateUser($request->input()))) {
             $info = User::where('phone', $request->phone)->first();
             $request->session()->put('userInfo', $info);
-            return Redirect::to('/index');
+            return redirect()->route('web.index');
 //            ->with('success', '登录成功！')
         }else {
-            return back()->with('error', '账号或密码错误')->withInput();
+            return back()->withErrors('账号或密码错误')->withInput();
         }
     }
 
@@ -81,6 +96,7 @@ class AuthController extends Controller
             'phone.unique'              =>  '手机号码已经被注册啦',
             'email.required'              =>  '邮箱必填',
             'password.required'       =>  '密码必填',
+            'password.min'              =>  '密码不能小于6位数',
             'confirm_password.required'        =>  '确认密码必填',
             'yzm.required'            =>  '验证码必填'
         ];
@@ -111,7 +127,8 @@ class AuthController extends Controller
         if ($res){
             $info = User::where('phone', $request->phone)->first();
             $request->session()->put('userInfo', $info);
-            Redirect::to('/index');
+            session()->flash('success', '注册成功');
+            return redirect()->route('web.index');
         }else{
             return back()->withErrors('登录失败,请重试')->withInput();
         }
@@ -125,7 +142,8 @@ class AuthController extends Controller
         if(GuestAuth::guard('web')->user()){
             GuestAuth::guard('web')->logout();
         }
-        return Redirect::to('home/login');
+        session()->flash('success', '退出成功');
+        return redirect()->route('web.index');
     }
 
     /**
@@ -136,6 +154,20 @@ class AuthController extends Controller
     public function username()
     {
         return 'username';
+    }
+
+    /**
+     * 验证用户登录字段
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function validateUser(array $data)
+    {
+        return [
+            'phone' => $data['phone'],
+            'password' => $data['password']
+        ];
     }
 
 

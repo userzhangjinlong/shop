@@ -15,10 +15,12 @@ Route::group(['middleware' => 'web'], function (){
 
     //首页
     Route::get('/', 'IndexController@index')->name('index');
-    Route::get('/index', 'IndexController@index');
+    Route::get('/index', 'IndexController@index')->name('web.index');
 
+    //登录注册
     Route::get('/login', 'AuthController@showLoginForm')->name('web.login');
     Route::post('/login', 'AuthController@login')->name('web.loginc');
+    Route::get('/logout', 'AuthController@logout')->name('web.logout');
     Route::get('/register', 'AuthController@showRegisterForm')->name('web.reg');
     Route::post('/register', 'AuthController@register')->name('web.register');
     Route::post('/yzm','AuthController@yzm')->name('web.yzm');
