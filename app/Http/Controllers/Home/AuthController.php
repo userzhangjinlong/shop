@@ -68,8 +68,8 @@ class AuthController extends Controller
         if (GuestAuth::guard('web')->attempt($this->validateUser($request->input()))) {
             $info = User::where('phone', $request->phone)->first();
             $request->session()->put('userInfo', $info);
+            session()->flash('success', '登录成功');
             return redirect()->route('web.index');
-//            ->with('success', '登录成功！')
         }else {
             return back()->withErrors('账号或密码错误')->withInput();
         }
