@@ -1680,7 +1680,7 @@
 		datesDisabled: [],
 		endDate: Infinity,
 		forceParse: true,
-		format: 'mm/dd/yyyy',
+		format: 'yyyy-mm-dd',
 		keepEmptyValues: false,
 		keyboardNavigation: true,
 		language: 'en',
@@ -1717,11 +1717,11 @@
 	$.fn.datepicker.Constructor = Datepicker;
 	var dates = $.fn.datepicker.dates = {
 		en: {
-			days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-			daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-			daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-			months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-			monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+			daysShort: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+			daysMin: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+			months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+			monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
 			today: "Today",
 			clear: "Clear",
 			titleFormat: "MM yyyy"

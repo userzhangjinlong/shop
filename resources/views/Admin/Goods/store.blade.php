@@ -124,19 +124,97 @@
                                     <div class="form-group checkbox">
                                         <label for="cname" class="control-label col-lg-2">包邮选择 </label>
                                         <div class="col-lg-10">
-                                            <input type="checkbox" name="post_free" @if ($goods_info) @if ($goods_info->post_free ==0 || empty($goods_info->post_free)) checked="true" @endif @else checked="true" @endif value="0"> 是否包邮
+                                            <input type="checkbox" onclick="isbaoyou()" id="post_free" name="post_free" @if ($goods_info) @if ($goods_info->post_free ==0 || empty($goods_info->post_free)) checked="true" @endif @else checked="true" @endif value="0"> 是否包邮
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" id="postagediv">
                                         <label for="cname" class="control-label col-lg-2">邮费 </label>
                                         <div class="col-lg-10">
-                                            <input type="number" class="form-control" name="postage" id="postage" @if ($goods_info) value="{{ $goods_info->postage ?: 0 }}" @endif placeholder="请输入邮费">
+                                            <input type="text" class="form-control" name="postage" id="postage" @if ($goods_info) value="{{ $goods_info->postage ?: 0 }}" @endif placeholder="请输入邮费">
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" id="full_pricediv">
                                         <label for="cname" class="control-label col-lg-2">满多少包邮费 </label>
                                         <div class="col-lg-10">
                                             <input type="text" class="form-control" name="full_price" @if ($goods_info) value="{{ $goods_info->full_price ?: 0 }}" @endif id="full_price" placeholder="满足金额减免邮费,0表示不减邮费">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group checkbox">
+                                        <label for="cname" class="control-label col-lg-2">是否上架 </label>
+                                        <div class="col-lg-10">
+                                            <input type="checkbox" id="sales" name="sales" @if ($goods_info) @if ($goods_info->sales ==0 || empty($goods_info->sales)) checked="true" @endif @else checked="true" @endif value="0"> 是否上架
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group checkbox">
+                                        <label for="cname" class="control-label col-lg-2">是否热销 </label>
+                                        <div class="col-lg-10">
+                                            <input type="checkbox" id="hot" name="hot" @if ($goods_info) @if ($goods_info->hot ==1) checked="true" @endif @endif value="1"> 是否热销
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group checkbox">
+                                        <label for="cname" class="control-label col-lg-2">是否精品 </label>
+                                        <div class="col-lg-10">
+                                            <input type="checkbox" id="best_good" name="best_good" @if ($goods_info) @if ($goods_info->best_good ==1) checked="true" @endif @endif value="1"> 是否精品
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group checkbox">
+                                        <label for="cname" class="control-label col-lg-2">是否开启秒杀活动 </label>
+                                        <div class="col-lg-10">
+                                            <input type="checkbox" onclick="isspike()" id="spike" name="spike" @if ($goods_info) @if ($goods_info->spike ==1) checked="true" @endif @endif value="1"> 是否开启秒杀
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="spike_pricediv">
+                                        <label for="cname" class="control-label col-lg-2">秒杀价格 </label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" name="spike_price" @if ($goods_info) value="{{ $goods_info->spike_price ?: 0 }}" @endif id="spike_price" placeholder="商品秒杀活动开启的价格">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="spike_b_timediv">
+                                        <label for="cname" class="control-label col-lg-2">秒杀开始时间 </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control"  name="spike_b_time" @if ($goods_info) value="{{ $goods_info->spike_b_time}}" @endif id="spike_b_time" placeholder="请选择秒杀活动结束时间">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="spike_e_timediv">
+                                        <label for="cname" class="control-label col-lg-2">秒杀结束时间 </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="spike_e_time" @if ($goods_info) value="{{ $goods_info->spike_e_time}}" @endif id="spike_e_time" placeholder="请选择秒杀活动结束时间">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group checkbox">
+                                        <label for="cname" class="control-label col-lg-2">是否发起拼团 </label>
+                                        <div class="col-lg-10">
+                                            <input type="checkbox" onclick="ispintuan()" id="group_buy" name="group_buy" @if ($goods_info) @if ($goods_info->group_buy ==1) checked="true" @endif @endif value="1"> 是否开启拼团
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="broup_buy_numdiv">
+                                        <label for="cname" class="control-label col-lg-2">拼团人数 </label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" name="broup_buy_num" id="broup_buy_num" @if ($goods_info) value="{{ $goods_info->broup_buy_num ?: 0 }}" @endif placeholder="请输入参与拼团人数">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="group_buy_pricediv">
+                                        <label for="cname" class="control-label col-lg-2">拼团价格 <span class="required">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control @if ($errors->has('group_buy_price')) error @endif" name="group_buy_price" @if ($goods_info) value="{{ $goods_info->group_buy_price }}" @endif id="group_buy_price" placeholder="请输入拼团价格" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="group_buy_s_pricediv">
+                                        <label for="cname" class="control-label col-lg-2">拼团发起价格 <span class="required">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control @if ($errors->has('group_buy_s_price')) error @endif" name="group_buy_s_price" @if ($goods_info) value="{{ $goods_info->group_buy_s_price }}" @endif id="group_buy_s_price" placeholder="请输入发起拼团价格" />
                                         </div>
                                     </div>
 
@@ -195,6 +273,11 @@
     <script type="text/javascript" src="{{ asset('js/assets/ckeditor/ckeditor.js') }}"></script>
 
     <script>
+        isbaoyou();
+        ispintuan();
+        isspike();
+        $('#spike_b_time').datepicker();
+        $('#spike_e_time').datepicker();
         {{--CKEDITOR.editorConfig = function(config) {--}}
             {{--// config.language = 'fr';--}}
             {{--// config.uiColor = '#AADC6E';--}}
@@ -214,6 +297,46 @@
             language : 'zh-cn',
             filebrowserImageUploadUrl : "{{ route('admin.uploaddditorimage', 'GoodsDetail') }}",//上传图片的地址
         });
+
+        function isbaoyou() {
+            if ($("#post_free").is(":checked")){
+                //包邮
+                $('#postage').val(0);
+                $('#postagediv').hide();
+                $('#full_price').val(0);
+                $('#full_pricediv').hide();
+            }else{
+                $('#postagediv').show();
+                $('#full_pricediv').show();
+            }
+        }
+
+        function ispintuan() {
+            if ($("#group_buy").is(":checked")){
+                //开启拼团
+                $('#broup_buy_numdiv').show();
+                $('#group_buy_pricediv').show();
+                $('#group_buy_s_pricediv').show();
+            }else{
+                $('#broup_buy_numdiv').hide();
+                $('#group_buy_pricediv').hide();
+                $('#group_buy_s_pricediv').hide();
+            }
+        }
+
+        function isspike() {
+            if ($("#spike").is(":checked")){
+                //开启秒杀
+                $('#spike_pricediv').show();
+                $('#spike_b_timediv').show();
+                $('#spike_e_timediv').show();
+            }else{
+                $('#spike_pricediv').hide();
+                $('#spike_b_timediv').hide();
+                $('#spike_e_timediv').hide();
+            }
+        }
+
     </script>
 
 

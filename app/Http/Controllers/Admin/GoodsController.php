@@ -149,11 +149,22 @@ class GoodsController extends Controller
                     'thumb_img'     =>  $thumb_path,
                     'carousel_img'  =>  trim($carousel_img, ','),
                     'stock'         =>  intval($request->stock),
-                    'post_free'     =>  floatval($request->post_free),
+                    'post_free'     =>  $request->post_free != 0 ? 1 : 0,
                     'postage'       =>  floatval($request->postage),
                     'full_price'    =>  floatval($request->full_price),
                     'ensure'        =>  $request->ensure,
-                    'goods_detail'  =>  $request->goods_detail
+                    'goods_detail'  =>  $request->goods_detail,
+                    'sales'  =>  $request->sales != 0 ? 1 : 0,
+                    'hot'  =>  $request->hot,
+                    'best_good'  =>  $request->best_good,
+                    'spike'  =>  $request->spike,
+                    'spike_price'  =>  floatval($request->spike_price),
+                    'spike_b_time'  =>  $request->spike_b_time,
+                    'spike_e_time'  =>  $request->spike_e_time,
+                    'group_buy'  =>  $request->group_buy,
+                    'broup_buy_num'  =>  intval($request->broup_buy_num),
+                    'group_buy_price'  =>  floatval($request->group_buy_price),
+                    'group_buy_s_price'  =>  floatval($request->group_buy_s_price),
                 ]);
                 if($res){
                     return view('Admin.Public.success')->with([
@@ -171,7 +182,14 @@ class GoodsController extends Controller
                 $goods = $goods->find($id);
                 foreach($request->all() as $k => $v){
                     if ($k != '_token'){
-                        $goods->$k = $v;
+                        if ($k == 'post_free'){
+                            $goods->$k = $v != 0 ? 1 : 0;
+                        }elseif ($k == 'sales'){
+                            $goods->$k = $v != 0 ? 1 : 0;
+                        }else{
+                            $goods->$k = $v;
+                        }
+
                     }
                 }
                 if (!empty($thumb_path)) $goods->thumb_img = $thumb_path;
