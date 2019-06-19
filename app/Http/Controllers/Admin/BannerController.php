@@ -88,7 +88,7 @@ class BannerController extends Controller
                         $banner->$k = $v;
                     }
                 }
-                if (!empty($banner_path)) $banner->thumb_img = $banner_path;
+                if (!empty($banner_path)) $banner->banner_img = $banner_path;
 
                 $res = $banner->save();
 
@@ -109,6 +109,7 @@ class BannerController extends Controller
                     'banner_name'    =>  $request->banner_name,
                     'adver_id'       =>  intval($request->adver_id),
                     'banner_desc'    =>  $request->banner_desc ?: '',
+                    'url'    =>  $request->url ?: '',
                     'banner_img'      =>  $banner_path
                 ]);
                 if($res){

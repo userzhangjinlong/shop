@@ -34,7 +34,7 @@
 /* Large desktop :1200px. */
 @media (max-width: 1366px) {
     .slider-single {
-        height: 393px;
+        height: 250px;
     }
 }
 

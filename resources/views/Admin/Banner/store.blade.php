@@ -53,6 +53,13 @@
                                     </div>
 
                                     <div class="form-group ">
+                                        <label for="cname" class="control-label col-lg-2">图片链接</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control error" name="url" @if ($banner_info) value="{{ $banner_info->url }}" @endif id="url" placeholder="请填写图片链接" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group ">
                                         <label for="cname" class="control-label col-lg-2">banner描述</label>
                                         <div class="col-lg-10">
                                             <input type="text" class="form-control error" name="banner_desc" @if ($banner_info) value="{{ $banner_info->banner_desc }}" @endif id="banner_desc" placeholder="请填写广告图描述" />

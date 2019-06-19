@@ -16,7 +16,7 @@ a:active, a:hover, a:focus {
 
 img {
     max-width: 100%;
-    width: 60%;
+    /*width: 60%;*/
 }
 
 strong {
