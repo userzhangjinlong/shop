@@ -65,6 +65,38 @@ class GoodsController extends Controller
                 $rule['carousel_img'] = 'required';
             }
 
+            if($request->post_free === 0){
+                //包邮
+                $rule['postage'] = ['required', function($attrbute, $value, $fail){
+                    if ($value <= 0){
+                        $fail('邮费必须大于0!');
+                    }
+                }];
+                $rule['full_price'] = 'required';
+            }
+
+            if($request->spike == 1){
+                //开启秒杀
+                $rule['spike_price'] = ['required', function($attrbute, $value, $fail){
+                    if ($value < 0){
+                        $fail('秒杀价格不能小雨0!');
+                    }
+                }];
+                $rule['spike_b_time'] = 'required';
+                $rule['spike_e_time'] = 'required';
+            }
+
+            if ($request->group_buy == 1){
+                //开启拼团
+                $rule['broup_buy_num'] = ['required', 'integer'];
+                $rule['group_buy_price'] = 'required';
+                $rule['group_buy_s_price'] = ['required', function($attrbute, $value, $fail){
+                    if ($value <= 0){
+                        $fail('发起拼团价格必须大于0!');
+                    }
+                }];
+            }
+
             $message = [
                 'goods_name.required'           =>  '商品名称必填',
                 'cate_id.required'              =>  '分类名称必选',
@@ -75,7 +107,15 @@ class GoodsController extends Controller
                 'stock.required'                =>  '库存必填',
                 'ensure.required'               =>  '保障信息必填',
                 'goods_detail.required'         =>  '商品详情必填',
-//                'postage.integer'               =>  '邮费必须填写为整数'
+                'postage.required'              =>  '邮费必填',
+                'full_price.required'           =>  '满多少免邮必填',
+                'spike_price.required'          =>  '秒杀价格必填',
+                'spike_b_time.required'         =>  '秒杀开始时间必填',
+                'spike_e_time.required'         =>  '秒杀结束时间必填',
+                'broup_buy_num.required'        =>  '拼团人数必填',
+                'broup_buy_num.integer'         =>  '拼团人数为整数',
+                'group_buy_price.required'      =>  '拼团价格必填',
+                'group_buy_s_price.required'    =>  '发起拼团价格必填',
             ];
             $validate = Validator::make($request->all(), $rule, $message);
 
