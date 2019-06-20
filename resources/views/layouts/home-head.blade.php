@@ -370,6 +370,31 @@
 </header><!--header-area end-->
 @yield('content')
 <!--footer-area start-->
+<style>
+    .footer-menu ul{
+        width: 100%;
+    }
+    .footer-menu ul li{
+        width: 25%;
+        float: left;
+        text-align: center;
+        vertical-align: middle;
+        font-size:12px;
+    }
+    .footer-menu ul li a{
+        margin-bottom: 0;
+    }
+</style>
+<footer class="footer-menu">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom" style="padding: 0;">
+        <ul>
+            <li class="active"><img src="{{ asset('home/images/icons/index_m.png') }}" width="24%"><br/><a href="#">首页</a></li>
+            <li><a href="#">分类</a></li>
+            <li><a href="#">购物车</a></li>
+            <li><a href="#">个人中心</a></li>
+        </ul>
+    </nav>
+</footer>
 {{--<footer class="footer-area mt-50">--}}
     {{--<div class="container-fluid">--}}
         {{--<div class="row">--}}
