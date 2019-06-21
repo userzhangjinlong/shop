@@ -217,7 +217,7 @@
         <div class="container-fluid"><!--logo and cart-->
             <div class="row align-items-center">
                 <div class="col-sm-4 col-6">
-                    <div class="logo"><a href="/"><img src="{{ asset('home/images/logo.png') }}" alt="logo"/></a></div>
+                    <div class="logo"><a href="/"><img src="{{ asset('home/images/logo.png') }}" width="50%" alt="logo"/></a></div>
                 </div>
                 <div class="col-sm-8 col-6">
                     <div class="mini-cart text-right">
@@ -263,12 +263,12 @@
                             @foreach($cate_One as $v)
                                 <option value="{{ $v->id }}">{{ $v->name }}</option>
                             @endforeach
-                        </select><input type="text" placeholder="What do you need?"/>
+                        </select><input type="text" placeholder="请选择你想要的"/>
                         <button>搜索</button>
                     </div>
                 </div>
             </div><!--site-menu-->
-            <div class="row mt-sm-10">
+            {{--<div class="row mt-sm-10">
                 <div class="col-lg-12"><a href="/" class="mmenu-icon pull-left"><i class="fa fa-bars"></i></a>
                     <div class="mainmenu">
                         <nav id="my-menu">
@@ -364,7 +364,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div>--}}
         </div>
     </div>
 </header><!--header-area end-->
@@ -385,13 +385,13 @@
         margin-bottom: 0;
     }
 </style>
-<footer class="footer-menu">
+<footer class="footer-menu" style="margin-top: 100px;">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom" style="padding: 0;">
         <ul>
-            <li class="active"><img src="{{ asset('home/images/icons/index_m.png') }}" width="24%"><br/><a href="#">首页</a></li>
-            <li><a href="#">分类</a></li>
-            <li><a href="#">购物车</a></li>
-            <li><a href="#">个人中心</a></li>
+            <li class="active"><img src="{{ asset('home/images/icons/index_m.png') }}"  style="width: 24%;margin-top: 8px"><br/><a href="{{ route('web.index') }}">首页</a></li>
+            <li><img src="{{ asset('home/images/icons/cate_m.png') }}"  style="width: 24%;margin-top: 8px"><br/><a href="{{ route('web.categorylist') }}">分类</a></li>
+            <li><img src="{{ asset('home/images/icons/cart_m.png') }}"  style="width: 24%;margin-top: 8px"><br/><a href="#">购物车</a></li>
+            <li><img src="{{ asset('home/images/icons/me_m.png') }}"  style="width: 24%;margin-top: 8px"><br/><a href="#">个人中心</a></li>
         </ul>
     </nav>
 </footer>

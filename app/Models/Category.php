@@ -108,9 +108,9 @@ class Category extends Model
     /**
      * @return array
      */
-    public function sharedDataCate(){
-        $list = $this->orderby('sort', 'asc')->orderby('id', 'asc')->get(['id', 'pid', 'name']);
-        return $this->showData($list, 0);
+    public function sharedDataCate($pid = 0){
+        $list = $this->orderby('sort', 'asc')->orderby('id', 'asc')->get(['id', 'pid', 'name', 'cateicon']);
+        return $this->showData($list, $pid);
     }
 
     /**
@@ -138,7 +138,7 @@ class Category extends Model
      * @return mixed
      */
     public function getOneStepCate(){
-        return $this->where('pid', 0)->get(['id', 'name']);
+        return $this->where('pid', 0)->orderby('sort', 'asc')->orderby('id', 'desc')->get(['id', 'name']);
     }
 
 }

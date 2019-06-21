@@ -24,6 +24,13 @@ Route::group(['middleware' => 'web'], function (){
     Route::post('/register', 'AuthController@register')->name('web.register');
     Route::post('/yzm','AuthController@yzm')->name('web.yzm');
 
+    //商品详情
+    Route::get('/goodslist/{cat_id?}', 'GoodsController@index')->name('web.goodslist');
+    Route::get('/goodsdetail/{id}', 'GoodsController@detail')->name('web.goodsdetail');
+
+    //分类
+    Route::get('/category/{id?}', 'CategoryController@index')->name('web.categorylist');
+
     Route::group(['middleware' => 'guestAuth'], function(){
         //需要登录的路由
         Route::get('/logout', 'AuthController@logout')->name('web.logout');
