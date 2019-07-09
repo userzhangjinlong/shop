@@ -6,7 +6,8 @@ use App\Events\SendSms;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class EventListenerYzm
+// implements ShouldQueue 让这个监听器异步执行
+class EventListenerYzm implements ShouldQueue
 {
     /**
      * Create the event listener.
