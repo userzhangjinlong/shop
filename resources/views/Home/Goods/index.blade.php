@@ -10,19 +10,32 @@
             width: 100%;
             position: relative;
         }
+        .top li{
+            list-style: none;
+            float: left;
+            width: 25%;
+            text-align: center;
+        }
+        .checked{
+            background: #e23e1d;
+        }
+        .checked a{
+            color: #ffffff;
+        }
     </style>
-    <div class="sticker mobile-header">
-        <a href="javascript:" class="item has J_ping" dtype="sort" rd="0-24-3" ord="0-24-3" crd="0-24-4" id="sortTab" report-eventid="MList_Comprehensive"><span rd="0-24-3">默认<i class="icon_tri" rd="0-24-3"></i></span></a>
-        <a href="javascript:" class="item J_ping" dtype="sale" rd="0-24-9" id="saleTab" report-eventid="MList_SalesVolume">销量</a>
-        <a href="javascript:" class="item hide" dtype="article" rd="0-24-25" id="articleTab">价格</a>
-        <a href="javascript:" class="item btn_sf J_ping" id="filterBtn" rd="0-24-52" report-eventid="MList_Filter">筛选</a>
+    <div class="sticker mobile-header top">
+        <li class="checked"><a href="{{ route('web.goodslist', [$cate_id])}}" class="item has J_ping " id="sortTab" ><span>默认<i class="icon_tri"></i></span></a></li>
+        <li><a href="{{ route('web.goodslist', [$cate_id, 'sales', $order])}}" class="item J_ping" dtype="sale" rd="0-24-9" id="saleTab" report-eventid="MList_SalesVolume">销量</a></li>
+        <li><a href="{{ route('web.goodslist', [$cate_id, 'price', $order])}}" class="item hide" dtype="article" rd="0-24-25" id="articleTab">价格</a></li>
+        <li><a href="javascript:" class="item btn_sf J_ping" id="filterBtn" rd="0-24-52" report-eventid="MList_Filter">筛选</a></li>
     </div>
+    <div style="clear: both;"></div>
     <div class="shop-area" style="padding-top: 0">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-2 col-lg-3">
                     <div class="sidebar">
-                        <div class="price_filter mt-40">
+                        {{--<div class="price_filter mt-40">
                             <div class="section-title"><h3>价格区间</h3></div>
                             <div class="price_slider_amount">
                                 <div class="row align-items-center">
@@ -56,13 +69,13 @@
                                 <li><input type="checkbox" id="orange"/><label for="orange">Orange</label></li>
                                 <li><a href="#">+ Show more</a></li>
                             </ul>
-                        </div>
+                        </div>--}}
                     </div>
                 </div>
                 <div class="col-xl-10 col-lg-9">
                     <div class="row align-items-center">
                         <div class="col-lg-5 col-md-6">
-                            <div class="products-sort">
+                            {{--<div class="products-sort">
                                 <form><select name="sort">
                                         <option value="0">默认</option>
                                         <option value="1">销量低-高</option>
@@ -70,7 +83,7 @@
                                         <option value="2">价格低-高</option>
                                         <option value="3">价格高-低</option>
                                     </select></form>
-                            </div>
+                            </div>--}}
                             {{--<div class="products-sort">--}}
                                 {{--<form><label>Show :</label><select>--}}
                                         {{--<option>12</option>--}}
@@ -80,14 +93,14 @@
                             {{--</div>--}}
                         </div>
                         <div class="col-lg-5 col-md-12">
-                            <div class="site-pagination pull-right">
+                            {{--<div class="site-pagination pull-right">
                                 <ul>
                                     <li><a href="#" class="active">1</a></li>
                                     <li>of</li>
                                     <li><a href="#">3</a></li>
                                     <li><a href="#"><i class="fa fa-long-arrow-right"></i></a></li>
                                 </ul>
-                            </div>
+                            </div>--}}
                             <div class="product-view-system pull-right" role="tablist">
                                 <ul class="nav nav-tabs">
                                     <li><a class="active" data-toggle="tab" href="#grid-products"><img
@@ -168,23 +181,13 @@
                     <div class="row align-items-center mt-30">
                         <div class="col-lg-6">
                             <div class="site-pagination">
-                                <ul>
-                                    <li><a href="#" class="active">1</a></li>
-                                    <li>of</li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#"><i class="fa fa-long-arrow-right"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="product-results pull-right"><span>Showing 1–3 of 60 results</span>
-                                {{--<div class="products-sort ml-35 mr-0">
-                                    <form><label>Show :</label><select>
-                                            <option>12</option>
-                                            <option>8</option>
-                                            <option>4</option>
-                                        </select></form>
-                                </div>--}}
+                                {{ $list->render() }}
+                                {{--<ul>--}}
+                                    {{--<li><a href="#" class="active">1</a></li>--}}
+                                    {{--<li>of</li>--}}
+                                    {{--<li><a href="#">3</a></li>--}}
+                                    {{--<li><a href="#"><i class="fa fa-long-arrow-right"></i></a></li>--}}
+                                {{--</ul>--}}
                             </div>
                         </div>
                     </div>

@@ -25,7 +25,7 @@ Route::group(['middleware' => 'web'], function (){
     Route::post('/yzm','AuthController@yzm')->name('web.yzm');
 
     //商品详情
-    Route::get('/goodslist/{cat_id?}', 'GoodsController@index')->name('web.goodslist');
+    Route::get('/goodslist/{cat_id?}/{sort?}/{order?}', 'GoodsController@index')->name('web.goodslist');
     Route::get('/goodsdetail/{id}', 'GoodsController@detail')->name('web.goodsdetail');
 
     //分类
