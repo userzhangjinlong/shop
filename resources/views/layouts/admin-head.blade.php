@@ -9,7 +9,7 @@
     <meta name="keyword" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'LAN商城-后台管理系统') }}</title>
+    <title>@yield('title')</title>
 
     <!-- Bootstrap CSS -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
@@ -363,6 +363,17 @@
                     <ul class="sub">
                         <li><a class="" href="{{ route('admin.goodsList') }}">商品列表</a></li>
                         <li><a class="" href="{{ route('admin.goodsAdd') }}">新增商品</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_grid-3x3"></i>
+                        <span>SKU管理</span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="" href="{{ route('admin.goodsSkuList') }}">商品sku</a></li>
+                        <li><a class="" href="{{ route('admin.goodsSkuAdd') }}">新增sku</a></li>
                     </ul>
                 </li>
                 <li>

@@ -1,6 +1,5 @@
 @extends('layouts.admin-head')
-@section('title', '商品列表')
-
+@section('title', 'sku列表')
 @section('content')
     <section id="main-content">
         <section class="wrapper">
@@ -32,32 +31,32 @@
                                 <th><i class="icon_cogs"></i> 操作</th>
                             </tr>
                             @if(!empty($list))
-                                @foreach($list as $v)
-                                <tr>
-                                    <td>{{ $v->goods_name }}</td>
-                                    <td>{{ $v->category->name }}</td>
-                                    <td>{{ $v->brand->brand_name }}</td>
-                                    <td>{{ $v->created_at }}</td>
-                                    <td><input type="number" name="order" value="{{ $v->order }}" style="border: none;width:40px;" onblur="changeOrder({{ $v->id }}, this)"></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a class="btn btn-success" href="{{ route('admin.goodsAdd', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
-                                            {{--<a class="btn btn-danger" href="javascript:if (confirm('确认删除?')) location.href='{{ route('admin.cateDel', [$v->id]) }}'"><i class="icon_close_alt2"></i></a>--}}
-                                            <a class="btn btn-danger" data-toggle="modal" data-id="{{ $v->id }}" href="#del">
-                                                <i class="icon_close_alt2"></i>
-                                            </a>
-                                        </div>
+                                {{--@foreach($list as $v)
+                                    <tr>
+                                        <td>{{ $v->goods_name }}</td>
+                                        <td>{{ $v->category->name }}</td>
+                                        <td>{{ $v->brand->brand_name }}</td>
+                                        <td>{{ $v->created_at }}</td>
+                                        <td><input type="number" name="order" value="{{ $v->order }}" style="border: none;width:40px;" onblur="changeOrder({{ $v->id }}, this)"></td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-success" href="{{ route('admin.goodsAdd', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
+                                                --}}{{--<a class="btn btn-danger" href="javascript:if (confirm('确认删除?')) location.href='{{ route('admin.cateDel', [$v->id]) }}'"><i class="icon_close_alt2"></i></a>--}}{{--
+                                                <a class="btn btn-danger" data-toggle="modal" data-id="{{ $v->id }}" href="#del">
+                                                    <i class="icon_close_alt2"></i>
+                                                </a>
+                                            </div>
 
-                                    </td>
-                                </tr>
-                                @endforeach
+                                        </td>
+                                    </tr>
+                                @endforeach--}}
                             @else
                                 <tr><td colspan="4"><p style="text-align: center;"><strong>暂无相关数据</strong></p></td></tr>
                             @endif
                             </tbody>
                         </table>
                         <div class="text-center">
-                            {{ $list->links() }}
+                            {{--{{ $list->links() }}--}}
                         </div>
                     </section>
                 </div>

@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\AdminInternalException;
+use App\Exceptions\AdminInvalidRequestException;
+use App\Exceptions\HomeInvalidRequestException;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Goods;
+use App\Models\GoodsAttribute;
+use Carbon\Carbon;
+use http\Exception\InvalidArgumentException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -173,36 +180,66 @@ class GoodsController extends Controller
 //                return back()->withErrors(['详情图必须上传！'])->withInput();
 //            }
 
+
             if (empty($request->id)){
-                $res = Goods::create([
+                //新增
+                DB::beginTransaction();
+                try{
+                    $res = Goods::create([
 //                    $request->all()  //另一种添加方式待测试
-                    'goods_name'    =>  $request->goods_name,
-                    'cate_id'       =>  intval($request->cate_id),
-                    'brand_id'       =>  intval($request->brand_id),
-                    'desc'          =>  $request->desc,
-                    'tags'          =>  $request->tags,
-                    'original_price'=>  floatval($request->original_price),
-                    'present_price' =>  floatval($request->present_price),
-                    'thumb_img'     =>  $thumb_path,
-                    'carousel_img'  =>  trim($carousel_img, ','),
-                    'stock'         =>  intval($request->stock),
-                    'post_free'     =>  $request->post_free != 0 ? 1 : 0,
-                    'postage'       =>  floatval($request->postage),
-                    'full_price'    =>  floatval($request->full_price),
-                    'ensure'        =>  $request->ensure,
-                    'goods_detail'  =>  $request->goods_detail,
-                    'sales'  =>  $request->sales != 0 ? 1 : 0,
-                    'hot'  =>  $request->hot,
-                    'best_good'  =>  $request->best_good,
-                    'spike'  =>  $request->spike,
-                    'spike_price'  =>  floatval($request->spike_price),
-                    'spike_b_time'  =>  $request->spike_b_time,
-                    'spike_e_time'  =>  $request->spike_e_time,
-                    'group_buy'  =>  $request->group_buy,
-                    'broup_buy_num'  =>  intval($request->broup_buy_num),
-                    'group_buy_price'  =>  floatval($request->group_buy_price),
-                    'group_buy_s_price'  =>  floatval($request->group_buy_s_price),
-                ]);
+                        'goods_name'    =>  $request->goods_name,
+                        'cate_id'       =>  intval($request->cate_id),
+                        'brand_id'       =>  intval($request->brand_id),
+                        'desc'          =>  $request->desc,
+                        'tags'          =>  $request->tags,
+                        'original_price'=>  floatval($request->original_price),
+                        'present_price' =>  floatval($request->present_price),
+                        'thumb_img'     =>  $thumb_path,
+                        'carousel_img'  =>  trim($carousel_img, ','),
+                        'stock'         =>  intval($request->stock),
+                        'post_free'     =>  $request->post_free != 0 ? 1 : 0,
+                        'postage'       =>  floatval($request->postage),
+                        'full_price'    =>  floatval($request->full_price),
+                        'ensure'        =>  $request->ensure,
+                        'goods_detail'  =>  $request->goods_detail,
+                        'sales'  =>  $request->sales != 0 ? 1 : 0,
+                        'hot'  =>  $request->hot,
+                        'best_good'  =>  $request->best_good,
+                        'spike'  =>  $request->spike,
+                        'spike_price'  =>  floatval($request->spike_price),
+                        'spike_b_time'  =>  $request->spike_b_time,
+                        'spike_e_time'  =>  $request->spike_e_time,
+                        'group_buy'  =>  $request->group_buy,
+                        'broup_buy_num'  =>  intval($request->broup_buy_num),
+                        'group_buy_price'  =>  floatval($request->group_buy_price),
+                        'group_buy_s_price'  =>  floatval($request->group_buy_s_price),
+                    ]);
+
+                    $attr_length = count($request->input('attr_name'));
+                    if (!empty($attr_length)){
+                        $attribute_data = [];
+                        for ($i = 0; $i<$attr_length; $i++){
+                            if (empty($request->input('attr_name')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
+                            if ($request->input('hasmany')[$i] == 0 && empty($request->input('attr_val')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
+                            $attribute_data[] = [
+                                'goods_id'  =>  $res,
+                                'name'      =>  trim($request->input('attr_name')[$i]),
+                                'hasmany'   =>  $request->input('hasmany')[$i],
+                                'attr_val'  =>  $request->input('attr_val')[$i] ? trim($request->input('attr_val')[$i]) : '',
+                                'sort'      =>  $request->input('attr_sort')[$i],
+                                'created_at'=>  Carbon::now()->toDateTimeString(),
+                                'updated_at'=>  Carbon::now()->toDateTimeString(),
+                            ];
+                        }
+
+                        GoodsAttribute::insert($attribute_data);
+                    }
+                    DB::commit();
+                }catch (\Exception $exception){
+                    DB::rollBack();
+                    throw new AdminInternalException($exception->getMessage());
+                }
+
                 if($res){
                     return view('Admin.Public.success')->with([
                         'message'=>'新增成功！',
@@ -224,7 +261,7 @@ class GoodsController extends Controller
                         }elseif ($k == 'sales'){
                             $goods->$k = $v != 0 ? 1 : 0;
                         }else{
-                            $goods->$k = $v;
+                            if ($k != 'attr_name' && $k != 'hasmany' && $k != 'attr_val' && $k != 'attr_id' && $k != 'attr_sort') $goods->$k = $v;
                         }
 
                     }
@@ -232,7 +269,48 @@ class GoodsController extends Controller
                 if (!empty($thumb_path)) $goods->thumb_img = $thumb_path;
                 if (!empty($carousel_img)) $goods->thumb_img = trim($carousel_img, ',');
 
-                $res = $goods->save();
+                DB::beginTransaction();
+
+                try{
+                    $res = $goods->save();
+                    $attr_length = count($request->input('attr_name'));
+                    if (!empty($attr_length)){
+                        $attribute_data = [];
+                        for ($i = 0; $i<$attr_length; $i++){
+                            if (empty($request->input('attr_name')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
+                            if ($request->input('hasmany')[$i] == 0 && empty($request->input('attr_val')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
+                            if ($request->input('attr_id')[$i] > 0){
+                                //编辑
+                                $good_attribute = GoodsAttribute::find($request->input('attr_id')[$i]);
+                                $good_attribute->name = trim($request->input('attr_name')[$i]);
+                                $good_attribute->hasmany = $request->input('hasmany')[$i];
+                                $good_attribute->attr_val = trim($request->input('attr_val')[$i]);
+                                $good_attribute->sort = $request->input('attr_sort')[$i] ?: 0;
+
+                                $good_attribute->save();
+                            }else{
+                                $attribute_data[] = [
+                                    'goods_id'  =>  $id,
+                                    'name'      =>  $request->input('attr_name')[$i],
+                                    'hasmany'   =>  $request->input('hasmany')[$i],
+                                    'attr_val'  =>  $request->input('attr_val')[$i] ?: '',
+                                    'sort'      =>  $request->input('attr_sort')[$i],
+                                    'created_at'=>  Carbon::now()->toDateTimeString(),
+                                    'updated_at'=>  Carbon::now()->toDateTimeString(),
+                                ];
+                            }
+
+                        }
+                        if (!empty($attribute_data)) GoodsAttribute::insert($attribute_data);
+
+                    }
+                    DB::commit();
+
+                }catch (\Exception $exception){
+                    throw new AdminInternalException($exception->getMessage());
+                }
+
+
 
                 if ($res){
                     return view('Admin.Public.success')->with([
@@ -252,14 +330,17 @@ class GoodsController extends Controller
 
         $cate = (new Category())->tree();
         $brand = (new Brand())->get(['id', 'brand_name']);
+
         if(!empty($request->id)){
             $goods_info = $goods->find($id);
             $goods_info->carousel_img = explode(',', $goods_info->carousel_img);
+            $attributeList = (new GoodsAttribute())->where('goods_id', $id)->get();
         }else{
             $goods_info = [];
+            $attributeList = [];
         }
 
-        return view('Admin.Goods.store', compact('cate', 'goods_info', 'id', 'brand'));
+        return view('Admin.Goods.store', compact('cate', 'goods_info', 'id', 'brand', 'attributeList'));
     }
 
     /**
@@ -306,4 +387,20 @@ class GoodsController extends Controller
         }
 
     }
+
+    public function destoryAttr(Request $request){
+        $goods_attribute  = (new GoodsAttribute())->find($request->attr_id);
+        if (empty($goods_attribute)){
+            return response()->json(['code' => 400, 'msg' => '属性数据异常']);
+        }
+
+        $res = $goods_attribute->delete();
+
+        if ($res){
+            return response()->json(['code' => 200, 'msg' => 'ok']);
+        }else{
+            return response()->json(['code' => 400, 'msg' => '删除失败']);
+        }
+    }
+
 }

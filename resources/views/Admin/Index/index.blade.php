@@ -1,5 +1,5 @@
 @extends('layouts.admin-head')
-
+@section('title', 'LAN商城-后台管理系统')
 @section('content')
     <section id="main-content">
         <section class="wrapper">

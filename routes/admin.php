@@ -39,6 +39,13 @@ Route::group(['middleware' => ['authAdmin']], function (){
     Route::match(['get', 'post'], '/goodsDel/{id}', 'GoodsController@delete')->name('admin.goodsDel');
     Route::post('/goodSort', 'GoodsController@goodSort')->name('admin.goodSort');
 
+    //商品属性
+    Route::post('/goodsAttrDel', 'GoodsController@destoryAttr')->name('admin.delAttr');
+
+    //商品sku管理
+    Route::get('/goodsSkuList', 'GoodSkuController@index')->name('admin.goodsSkuList');
+    Route::match(['get', 'post'], '/goodsSkuAdd/{id?}', 'GoodSkuController@store')->name('admin.goodsSkuAdd');
+
     //广告位管理
     Route::get('/adverList', 'AdverController@index')->name('admin.adverList');
     Route::match(['get', 'post'], '/adverAdd/{id?}', 'AdverController@store')->name('admin.adverAdd');

@@ -1,4 +1,5 @@
 @extends('layouts.admin-head')
+@section('title', '新增商品')
 
 @section('content')
     <section id="main-content">
@@ -236,6 +237,55 @@
                                     </div>
 
 
+                                    <div class="form-group addhtml">
+                                        <label for="cname" class="control-label col-lg-2">商品属性</label>
+                                        <button class="btn btn-success" type="button" onclick="addattribute()" >新增属性</button>
+                                    </div>
+
+                                    <!--商品属性s-->
+                                    @if(!empty($attributeList))
+                                     @foreach($attributeList as $item)
+                                        <div class="addhtml">
+                                            <div class="form-group" >
+                                                <label for="cname" class="control-label col-lg-2">属性名称 <span class="required">*</span></label>
+                                                <div class="col-lg-10">
+                                                    <input type="text" class="form-control" value="{{ $item->name }}" name="attr_name[]" placeholder="属性名称" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname" class="control-label col-lg-2">是否可选 <span class="required">*</span></label>
+                                                <div class="col-lg-10">
+                                                    <select name="hasmany[]" class="form-control m-bot15">
+                                                        <option @if($item->hasmany == 1) selected="true" @endif value="1">可选</option>
+                                                        <option @if($item->hasmany == 0) selected="true" @endif value="0">不可选</option>
+                                                    </select>
+                                                    <font color="red">不可选时表示商品唯一属性列入：手机品牌、型号、入网型号、材质系统等；可选属性标示前台可选择价格变动：列如手机颜色、内存大小等</font>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname" class="control-label col-lg-2">属性值</label>
+                                                <div class="col-lg-10">
+                                                    <input type="text" class="form-control" value="{{ $item->attr_val ?: '' }}" name="attr_val[]" placeholder="属性值" />
+                                                    <input type="hidden" name="attr_id[]" value="{{ $item->id }}">
+                                                    <font color="red">不可选时填写标示不可选唯一属性的值列如：手机品牌：华为</font>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname" class="control-label col-lg-2">顺序 <span class="required">*</span></label>
+                                                <div class="col-lg-10">
+                                                    <input type="number" class="form-control" value="{{ $item->sort }}" name="attr_sort[]" placeholder="顺序" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-offset-2 col-lg-10" style="text-align: center">
+                                                    <input type="button" class="btn btn-danger" onclick="delrealattr(this, {{ $item->id }})" value="删除">
+                                                </div>
+                                            </div>
+                                        </div>
+                                     @endforeach
+                                    @endif
+                                    <!--商品属性e-->
+
 
                                     <div class="form-group">
                                         <div class="col-lg-offset-2 col-lg-10">
@@ -254,10 +304,6 @@
             <!-- page end-->
         </section>
     </section>
-
-    <script type="text/javascript">
-
-    </script>
 @endsection
 
 @section('script')
@@ -335,6 +381,72 @@
                 $('#spike_b_timediv').hide();
                 $('#spike_e_timediv').hide();
             }
+        }
+
+        function addattribute(){
+            var str = '<div class="addhtml"><div class="form-group" >' +
+                '<label for="cname" class="control-label col-lg-2">属性名称 <span class="required">*</span></label>' +
+                '<div class="col-lg-10">' +
+                '<input type="text" class="form-control" name="attr_name[]" placeholder="属性名称" />' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label for="cname" class="control-label col-lg-2">是否可选 <span class="required">*</span></label>' +
+                '<div class="col-lg-10">' +
+                '<select name="hasmany[]" class="form-control m-bot15">' +
+                '<option value="1">可选</option>' +
+                '<option value="0">不可选</option>' +
+                '</select>' +
+                '<font color="red">不可选时表示商品唯一属性列入：手机品牌、型号、入网型号、材质系统等；可选属性标示前台可选择价格变动：列如手机颜色、内存大小等</font>' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label for="cname" class="control-label col-lg-2">属性值</label>' +
+                '<div class="col-lg-10">' +
+                '<input type="text" class="form-control" name="attr_val[]" placeholder="属性值" />' +
+                '<input type="hidden" name="attr_id[]" >' +
+                '<font color="red">不可选时填写标示不可选唯一属性的值列如：手机品牌：华为</font>' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label for="cname" class="control-label col-lg-2">顺序 <span class="required">*</span></label>' +
+                '<div class="col-lg-10">' +
+                '<input type="number" class="form-control" name="attr_sort[]" placeholder="顺序" />' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<div class="col-lg-offset-2 col-lg-10" style="text-align: center">' +
+                '<input type="button" class="btn btn-danger" onclick="deldiv(this)" value="删除">' +
+                '</div>' +
+                '</div></div>';
+
+            $(".addhtml:last").after(str);
+        }
+
+        //删除属性htmldiv
+        function deldiv(obj) {
+            $(obj).parents('.addhtml').html('');
+        }
+
+        //删除真实属性数据
+        function delrealattr(obj, attr_id) {
+            $.ajax({
+                url: "{{ route('admin.delAttr') }}",
+                type: 'post',
+                dataType: 'json',
+                data: {attr_id:attr_id, '_token':'{{ csrf_token() }}'},
+                success: function(res){
+                    if (res.code == 200){
+                        $(obj).parents('.addhtml').html('');
+                    }else{
+                        alert(res.msg);
+                        return false;
+                    }
+                },
+                error: function(){
+                    alert('请求数据异常');
+                }
+            })
         }
 
     </script>

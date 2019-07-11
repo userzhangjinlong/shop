@@ -48,4 +48,8 @@ class Goods extends Model
         return $this->hasOne(Brand::class, 'id', 'brand_id');
     }
 
+    public function sku(){
+        return $this->hasMany(GoodSku::class);
+    }
+
 }
