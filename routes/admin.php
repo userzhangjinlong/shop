@@ -44,7 +44,11 @@ Route::group(['middleware' => ['authAdmin']], function (){
 
     //商品sku管理
     Route::get('/goodsSkuList', 'GoodSkuController@index')->name('admin.goodsSkuList');
-    Route::match(['get', 'post'], '/goodsSkuAdd/{id?}', 'GoodSkuController@store')->name('admin.goodsSkuAdd');
+//    Route::match(['get', 'post'], '/goodsSkuAdd/{id?}', 'GoodSkuController@store')->name('admin.goodsSkuAdd');
+    Route::get('/goodsSkuAdd/{id?}', 'GoodSkuController@store')->name('admin.goodsSkuAdd');
+    Route::post('/goodsSkuCreate/{id?}', 'GoodSkuController@create')->name('admin.goodsSkuCreate');
+    Route::post('/goodsAttribute', 'GoodSkuController@getGoodsAttrubute')->name('admin.goodsAttribute');
+    Route::get('/goodsSkuDel/{id}', 'GoodSkuController@destory')->name('admin.goodsSkuDel');
 
     //广告位管理
     Route::get('/adverList', 'AdverController@index')->name('admin.adverList');

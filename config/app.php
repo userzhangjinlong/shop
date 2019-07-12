@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'zh_cn',
+    'locale' => 'zh-CN',
 
     /*
     |--------------------------------------------------------------------------
@@ -92,6 +92,8 @@ return [
     */
 
     'fallback_locale' => 'en',
+
+    'faker_locale' => 'zh-CN', // 新增一个配置项默认工厂数据文件生成中文数据
 
     /*
     |--------------------------------------------------------------------------
@@ -160,7 +162,8 @@ return [
         Illuminate\Redis\RedisServiceProvider::class,
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
-        Illuminate\Translation\TranslationServiceProvider::class,
+//        Illuminate\Translation\TranslationServiceProvider::class, //英文返回屏蔽
+        Overtrue\LaravelLang\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 

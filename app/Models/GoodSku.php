@@ -35,4 +35,11 @@ class GoodSku extends Model
      */
     protected $hidden = [];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function goods(){
+        return $this->hasOne(Goods::class, 'id', 'goods_id');
+    }
+
 }
