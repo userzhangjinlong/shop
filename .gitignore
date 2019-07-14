@@ -12,3 +12,4 @@ yarn-error.log
 .env
 /storage/laravels.json
 /storage/laravels.pid
+/public/Uploads
