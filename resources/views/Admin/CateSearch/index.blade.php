@@ -1,14 +1,14 @@
 @extends('layouts.admin-head')
-@section('title', 'sku列表')
+@section('title', '搜索属性列表')
 @section('content')
     <section id="main-content">
         <section class="wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-file-text-o"></i> sku管理</h3>
+                    <h3 class="page-header"><i class="fa fa-file-text-o"></i> 搜索属性管理</h3>
                     <ol class="breadcrumb">
                         <li><i class="fa fa-home"></i><a href="/admin/">首页</a></li>
-                        <li><i class="icon_document_alt"></i>sku列表</li>
+                        <li><i class="icon_document_alt"></i>搜索属性列表</li>
                     </ol>
                 </div>
             </div>
@@ -17,31 +17,27 @@
                 <div class="col-lg-12">
                     <section class="panel">
                         <header class="panel-heading">
-                            sku列表
+                            搜索属性列表
                         </header>
 
                         <table class="table table-striped table-advance table-hover">
                             <tbody>
                             <tr>
-                                <th><i class="icon_menu"></i> 所属商品</th>
-                                <th><i class="icon_menu"></i> 属性</th>
-                                <th><i class="icon_menu"></i> 价格</th>
-                                <th><i class="icon_calendar"></i> 库存</th>
-                                <th><i class="icon_laptop"></i> 修改时间</th>
+                                <th><i class="icon_menu"></i> 所属分类</th>
+                                <th><i class="icon_menu"></i> 名称</th>
+                                <th><i class="icon_menu"></i> 排序</th>
                                 <th><i class="icon_cogs"></i> 操作</th>
                             </tr>
                             @if(!empty($list))
                                 @foreach($list as $v)
                                     <tr>
-                                        <td>{{ $v->goods->goods_name }}</td>
-                                        <td>{{ $v->title }}</td>
-                                        <td>{{ $v->price }}</td>
-                                        <td>{{ $v->stock }}</td>
-                                        <td>{{ $v->created_at }}</td>
+                                        <td>{{ $v->cate_name }}</td>
+                                        <td>{{ $v->property_name }}</td>
+                                        <td>{{ $v->sort }}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a class="btn btn-success" href="{{ route('admin.goodsSkuAdd', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
-                                                {{--<a class="btn btn-danger" href="javascript:if (confirm('确认删除?')) location.href='{{ route('admin.goodsSkuDel', [$v->id]) }}'"><i class="icon_close_alt2"></i></a>--}}
+                                                <a class="btn btn-success" href="{{ route('admin.cateSearchAdd', [$v->id]) }}"><i class="icon_pencil-edit_alt"></i></a>
+                                                <a class="btn btn-success" href="{{ route('admin.cateSearchValAdd', [$v->id]) }}"><i class="icon_folder-add"></i></a>
                                                 <a class="btn btn-danger" data-toggle="modal" data-id="{{ $v->id }}" href="#del">
                                                     <i class="icon_close_alt2"></i>
                                                 </a>
@@ -51,12 +47,12 @@
                                     </tr>
                                 @endforeach
                             @else
-                                <tr><td colspan="6"><p style="text-align: center;"><strong>暂无相关数据</strong></p></td></tr>
+                                <tr><td colspan="4"><p style="text-align: center;"><strong>暂无相关数据</strong></p></td></tr>
                             @endif
                             </tbody>
                         </table>
                         <div class="text-center">
-                            {{ $list->links() }}
+                            {{--{{ $list->links() }}--}}
                         </div>
                     </section>
                 </div>
@@ -67,10 +63,10 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">删除商品属性</h4>
+                            <h4 class="modal-title">删除分类筛选属性</h4>
                         </div>
                         <div class="modal-body">
-                            你确认删除该商品属性?
+                            你确认删除该分类筛选属性?
                         </div>
                         <div class="modal-footer">
                             <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
@@ -86,7 +82,7 @@
     <script type="text/javascript">
         function del(){
             var id = $('#del').attr('data-delid');
-            var url = '{{ url("admin/goodsSkuDel") }}'+'/'+id;
+            var url = '{{ url("admin/cateSearchDel") }}'+'/'+id;
             window.location.href=url;
         }
 

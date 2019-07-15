@@ -28,6 +28,14 @@ Route::group(['middleware' => ['authAdmin']], function (){
     Route::get('/cateDel/{id}', 'CategoryController@cateDel')->name('admin.cateDel');
     Route::post('/cateSort', 'CategoryController@cateSort')->name('admin.cateSort');
 
+    //分类搜索属性
+    Route::get('/cateSearchProperty', 'CateSearchController@index')->name('admin.cateSearchProperty');
+    Route::get('/cateSearchAdd/{id?}', 'CateSearchController@store')->name('admin.cateSearchAdd');
+    Route::post('/cateSearchCreate/{id?}', 'CateSearchController@create')->name('admin.cateSearchCreate');
+    Route::get('/cateSearchDel/{id}', 'CateSearchController@destory')->name('admin.cateSearchDel');
+    Route::get('/cateSearchValAdd/{search_id}/', 'CateSearchController@storeVal')->name('admin.cateSearchValAdd');
+    Route::post('/cateSearchValCreate/{search_id}', 'CateSearchController@createVal')->name('admin.cateSearchValCreate');
+
     //品牌
     Route::get('/brandList', 'BrandController@index')->name('admin.brandList');
     Route::match(['get', 'post'], '/brandAdd/{id?}', 'BrandController@store')->name('admin.brandAdd');

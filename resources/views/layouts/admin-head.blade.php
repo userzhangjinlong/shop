@@ -323,6 +323,17 @@
                 </li>
                 <li class="sub-menu">
                     <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>分类搜索属性</span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="" href="/admin/cateSearchProperty">搜索属性列表</a></li>
+                        <li><a class="" href="/admin/cateSearchAdd">添加搜索属性</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
                         <i class="icon_grid-3x3"></i>
                         <span>广告管理</span>
                         <span class="menu-arrow arrow_carrot-right"></span>
