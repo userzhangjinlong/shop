@@ -51,7 +51,7 @@ class CateSearchController extends Controller
 
     public function getGoodsAttribute(Request $request){
         $cate_id = $request->cate_id;
-        $goods_list = (new Goods()->where('cate_id', $cate_id)->get(['id']);
+        $goods_list = (new Goods())->where('cate_id', $cate_id)->get(['id']);
         $goods_idarr = [];
         foreach ($goods_list as $v){
             $goods_idarr[] = $v->id;
