@@ -33,7 +33,7 @@ class CategoryController extends Controller
                         $extension = $request->file('cateicon')->getClientOriginalExtension();
                         $fileName = time() . mt_rand(1, 999) . '.'. $extension;
                         $res = $request->file('cateicon')->move(base_path('public/'.$floder),$fileName);
-                        if ($res) $cateicon_path = $floder.'/'.$fileName;
+                        $cateicon_path = $floder.'/'.$fileName;
                     }else{
                         return $request->file('cateicon')->getError();
                     }
@@ -51,7 +51,7 @@ class CategoryController extends Controller
 
                 if ($cate){
                     return view('Admin.Public.success')->with([
-                        'message'=>'删除成功！',
+                        'message'=>'操作成功！',
                         'url' =>url('/admin/cateList'),
                         'jumpTime'=>2,
                         'urlname' => '分类列表'
@@ -102,7 +102,7 @@ class CategoryController extends Controller
                     }
                     $extension = $request->file('cateicon')->getClientOriginalExtension();
                     $fileName = time() . mt_rand(1, 999) . '.'. $extension;
-                    $res = $request->file('cateicon')->move($floder,$fileName);
+                    $res = $request->file('cateicon')->move(base_path('public/'.$floder),$fileName);
                     if ($res) $cate->cateicon = $floder.'/'.$fileName;
                 }else{
                     return $request->file('cateicon')->getError();
@@ -117,7 +117,7 @@ class CategoryController extends Controller
             $res = $cate->save();
             if($res){
                 return view('Admin.Public.success')->with([
-                    'message'=>'删除成功！',
+                    'message'=>'操作成功！',
                     'url' =>url('/admin/cateList'),
                     'jumpTime'=>2,
                     'urlname' => '分类列表'

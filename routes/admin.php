@@ -33,8 +33,10 @@ Route::group(['middleware' => ['authAdmin']], function (){
     Route::get('/cateSearchAdd/{id?}', 'CateSearchController@store')->name('admin.cateSearchAdd');
     Route::post('/cateSearchCreate/{id?}', 'CateSearchController@create')->name('admin.cateSearchCreate');
     Route::get('/cateSearchDel/{id}', 'CateSearchController@destory')->name('admin.cateSearchDel');
-    Route::get('/cateSearchValAdd/{search_id}/', 'CateSearchController@storeVal')->name('admin.cateSearchValAdd');
-    Route::post('/cateSearchValCreate/{search_id}', 'CateSearchController@createVal')->name('admin.cateSearchValCreate');
+    Route::get('/cateSearchValAdd/{search_id}/{id?}', 'CateSearchController@storeVal')->name('admin.cateSearchValAdd');
+    Route::post('/cateSearchValCreate/{search_id}/{id?}', 'CateSearchController@createVal')->name('admin.cateSearchValCreate');
+    Route::get('/cateSearchValDel/{id}', 'CateSearchController@destoryVal')->name('admin.cateSearchValDel');
+    Route::post('/cateSearchGetAttr', 'CateSearchController@getGoodsAttribute')->name('admin.cateSearchGetAttr');
 
     //品牌
     Route::get('/brandList', 'BrandController@index')->name('admin.brandList');

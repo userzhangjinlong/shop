@@ -96,7 +96,22 @@
     <script type="text/javascript">
         function getCatename(){
             var name = $('#cate_id option:selected').text();
+            var cate_id = $('#cate_id option:selected').val();
             $('#cate_name').val(name);
+            $.ajax({
+                type: "post",
+                url: "{{ route('admin.cateSearchGetAttr') }}", //请求地址
+                data: {'cate_id':cate_id, '_token':'{{ csrf_token() }}' },
+                dataType:"JSON",
+                success: function(data) {
+                    if(data.code == 400){
+                        alert(data.msg);
+                        return false;
+                    }
+                },
+                error: function(err) {
+                }
+            });
         }
     </script>
 @endsection

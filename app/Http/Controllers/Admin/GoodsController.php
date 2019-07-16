@@ -27,11 +27,12 @@ class GoodsController extends Controller
     public function index(Goods $goods, Request $request)
     {
         //with 实现多表关联查询获取
-        $list = $goods->with(['category' => function ($query){
-            $query->select('name','id');
-        },'brand' => function($query_brand){
-            $query_brand->select('id', 'brand_name');
-        }]);
+//        $list = $goods->with(['category' => function ($query){
+//            $query->select('name','id');
+//        },'brand' => function($query_brand){
+//            $query_brand->select('id', 'brand_name');
+//        }]);
+        $list = $goods;
         // 关键字过滤
         if($keyword = $request->keyword ?? ''){
             $list = $list->where('goods_name', 'like', '%'.$request->keyword.'%');
@@ -214,26 +215,28 @@ class GoodsController extends Controller
                         'group_buy_price'  =>  floatval($request->group_buy_price),
                         'group_buy_s_price'  =>  floatval($request->group_buy_s_price),
                     ]);
+                    if (!empty($request->input('attr_name'))){
+                        $attr_length = count($request->input('attr_name'));
+                        if (!empty($attr_length)){
+                            $attribute_data = [];
+                            for ($i = 0; $i<$attr_length; $i++){
+                                if (empty($request->input('attr_name')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
+                                if ($request->input('hasmany')[$i] == 0 && empty($request->input('attr_val')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
+                                $attribute_data[] = [
+                                    'goods_id'  =>  $res,
+                                    'name'      =>  trim($request->input('attr_name')[$i]),
+                                    'hasmany'   =>  $request->input('hasmany')[$i],
+                                    'attr_val'  =>  $request->input('attr_val')[$i] ? trim($request->input('attr_val')[$i]) : '',
+                                    'sort'      =>  $request->input('attr_sort')[$i],
+                                    'created_at'=>  Carbon::now()->toDateTimeString(),
+                                    'updated_at'=>  Carbon::now()->toDateTimeString(),
+                                ];
+                            }
 
-                    $attr_length = count($request->input('attr_name'));
-                    if (!empty($attr_length)){
-                        $attribute_data = [];
-                        for ($i = 0; $i<$attr_length; $i++){
-                            if (empty($request->input('attr_name')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
-                            if ($request->input('hasmany')[$i] == 0 && empty($request->input('attr_val')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
-                            $attribute_data[] = [
-                                'goods_id'  =>  $res,
-                                'name'      =>  trim($request->input('attr_name')[$i]),
-                                'hasmany'   =>  $request->input('hasmany')[$i],
-                                'attr_val'  =>  $request->input('attr_val')[$i] ? trim($request->input('attr_val')[$i]) : '',
-                                'sort'      =>  $request->input('attr_sort')[$i],
-                                'created_at'=>  Carbon::now()->toDateTimeString(),
-                                'updated_at'=>  Carbon::now()->toDateTimeString(),
-                            ];
+                            GoodsAttribute::insert($attribute_data);
                         }
-
-                        GoodsAttribute::insert($attribute_data);
                     }
+
                     DB::commit();
                 }catch (\Exception $exception){
                     DB::rollBack();
@@ -273,41 +276,43 @@ class GoodsController extends Controller
 
                 try{
                     $res = $goods->save();
-                    $attr_length = count($request->input('attr_name'));
-                    if (!empty($attr_length)){
-                        $attribute_data = [];
-                        for ($i = 0; $i<$attr_length; $i++){
-                            if (empty($request->input('attr_name')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
-                            if ($request->input('hasmany')[$i] == 0 && empty($request->input('attr_val')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
-                            if ($request->input('attr_id')[$i] > 0){
-                                //编辑
-                                $good_attribute = GoodsAttribute::find($request->input('attr_id')[$i]);
-                                $good_attribute->name = trim($request->input('attr_name')[$i]);
-                                $good_attribute->hasmany = $request->input('hasmany')[$i];
-                                $good_attribute->attr_val = trim($request->input('attr_val')[$i]);
-                                $good_attribute->sort = $request->input('attr_sort')[$i] ?: 0;
+                    if (!empty($request->input('attr_name'))){
+                        $attr_length = count($request->input('attr_name'));
+                        if (!empty($attr_length)){
+                            $attribute_data = [];
+                            for ($i = 0; $i<$attr_length; $i++){
+                                if (empty($request->input('attr_name')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
+                                if ($request->input('hasmany')[$i] == 0 && empty($request->input('attr_val')[$i])) return back()->withErrors(['请严格按照规则填写商品属性！'])->withInput();
+                                if ($request->input('attr_id')[$i] > 0){
+                                    //编辑
+                                    $good_attribute = GoodsAttribute::find($request->input('attr_id')[$i]);
+                                    $good_attribute->name = trim($request->input('attr_name')[$i]);
+                                    $good_attribute->hasmany = $request->input('hasmany')[$i];
+                                    $good_attribute->attr_val = trim($request->input('attr_val')[$i]);
+                                    $good_attribute->sort = $request->input('attr_sort')[$i] ?: 0;
 
-                                $good_attribute->save();
-                            }else{
-                                $attribute_data[] = [
-                                    'goods_id'  =>  $id,
-                                    'name'      =>  $request->input('attr_name')[$i],
-                                    'hasmany'   =>  $request->input('hasmany')[$i],
-                                    'attr_val'  =>  $request->input('attr_val')[$i] ?: '',
-                                    'sort'      =>  $request->input('attr_sort')[$i],
-                                    'created_at'=>  Carbon::now()->toDateTimeString(),
-                                    'updated_at'=>  Carbon::now()->toDateTimeString(),
-                                ];
+                                    $good_attribute->save();
+                                }else{
+                                    $attribute_data[] = [
+                                        'goods_id'  =>  $id,
+                                        'name'      =>  $request->input('attr_name')[$i],
+                                        'hasmany'   =>  $request->input('hasmany')[$i],
+                                        'attr_val'  =>  $request->input('attr_val')[$i] ?: '',
+                                        'sort'      =>  $request->input('attr_sort')[$i],
+                                        'created_at'=>  Carbon::now()->toDateTimeString(),
+                                        'updated_at'=>  Carbon::now()->toDateTimeString(),
+                                    ];
+                                }
+
                             }
+                            if (!empty($attribute_data)) GoodsAttribute::insert($attribute_data);
 
                         }
-                        if (!empty($attribute_data)) GoodsAttribute::insert($attribute_data);
-
                     }
                     DB::commit();
 
                 }catch (\Exception $exception){
-                    throw new AdminInternalException($exception->getMessage());
+                    throw new AdminInvalidRequestException($exception->getMessage());
                 }
 
 

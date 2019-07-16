@@ -391,125 +391,54 @@
             }
         </style>
     <!--隐藏筛选弹出层s-->
-        <div class="sf_layer_con show"  id="filterInner" style="display: none;" data-scroll="214">
-            <ul class="mod_list">
-                <li class="super_li no_arrow">
-                    <div class="list_inner">
-                        <div class="li_line">
-                            <div class="big">价格</div>
-                            <div class="right"></div>
-                        </div>
-                    </div>
-                </li>
-                <li class="filterlayer_price">
-                    <div class="filterlayer_price_area"><input type="tel" class="filterlayer_price_area_input J_ping"
-                                                               report-eventparam="" report-eventid="MFilter_StartPrice"
-                                                               id="filterPriceMin" placeholder="最低价" data-val="">
-                        <div class="filterlayer_price_area_hyphen"></div>
-                        <input type="tel" class="filterlayer_price_area_input J_ping" report-eventparam=""
-                               report-eventid="MFilter_EndPrice" id="filterPriceMax" placeholder="最高价" data-val="">
-                    </div>
-                    <div class="filterlayer_price_choices">
-                        <div class="J_ping filterlayer_price_choice" data-filter="priceRange" start="486" end="1449"
-                             text="¥486-¥1449" rd="0-9-57" ord="0-9-57" crd="0-9-58" report-eventparam="1"
-                             report-eventid="MFilter_RecommendPrice">
-                            <div class="filterlayer_price_choice_text">486-1449</div>
-                            <div class="filterlayer_price_choice_tips">31%选择</div>
-                        </div>
-                        <div class="J_ping filterlayer_price_choice" data-filter="priceRange" start="1449" end="2699"
-                             text="¥1449-¥2699" rd="0-9-59" ord="0-9-59" crd="0-9-60" report-eventparam="2"
-                             report-eventid="MFilter_RecommendPrice">
-                            <div class="filterlayer_price_choice_text">1449-2699</div>
-                            <div class="filterlayer_price_choice_tips">27%选择</div>
-                        </div>
-                        <div class="J_ping filterlayer_price_choice" data-filter="priceRange" start="2699" end="10888"
-                             text="¥2699-¥10888" rd="0-9-61" ord="0-9-61" crd="0-9-62" report-eventparam="3"
-                             report-eventid="MFilter_RecommendPrice">
-                            <div class="filterlayer_price_choice_text">2699-10888</div>
-                            <div class="filterlayer_price_choice_tips">29%选择</div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <ul class="mod_list">
-                <li>
-                    <div class="list_inner li_line">
-                        <div class="big">品牌</div>
-                        <div class="right"><span class="words_10" r-mark="brand" slen="1"
-                                                 style="max-width: 242px;"></span></div>
-                    </div>
-                </li>
-                <div class="tags_selection">
-                    <div class="J_ping option" ><a href="javascript:void 0;">华为（HUAWEI）</a></div>
-                    <div class="J_ping option" ><a href="javascript:void 0;">华为（HUAWEI）</a></div>
-                    <div class="J_ping option" ><a href="javascript:void 0;">华为（HUAWEI）</a></div>
-                    <div class="J_ping option" ><a href="javascript:void 0;">华为（HUAWEI）</a></div>
-                    <div class="J_ping option" ><a href="javascript:void 0;">华为（HUAWEI）</a></div>
-                </div>
-            </ul>
-            <ul class="mod_list">
-                <li>
-                    <div class="list_inner li_line">
-                        <div class="big">操作系统</div>
-                        <div class="right"><span class="words_10" r-mark="957" slen="1"
-                                                 style="max-width: 210px;"></span></div>
-                    </div>
-                </li>
-                <div class="tags_selection">
-                    <div class="J_ping option " ><a href="javascript:void 0;">其它OS</a></div>
-                </div>
-            </ul>
-            <ul class="mod_list">
-                <li>
-                    <div class="list_inner li_line">
-                        <div class="big">分辨率</div>
-                        <div class="right"><span class="words_10" r-mark="3613" slen="1"
-                                                 style="max-width: 226px;"></span></div>
-                    </div>
-                </li>
-                <div class="tags_selection">
-                    <div class="J_ping option " ><a href="javascript:void 0;">超高清屏（2K/3k/4K)</a></div>
-                </div>
-            </ul>
-            <ul class="mod_list">
-                <li>
-                    <div class="list_inner li_line">
-                        <div class="big">存储卡</div>
-                        <div class="right"><span class="words_10" r-mark="806" slen="1"
-                                                 style="max-width: 226px;"></span></div>
-                    </div>
-                </li>
-                <div class="tags_selection">
-                    <div class="J_ping option " ><a href="javascript:void 0;">其它存储卡</a></div>
+        <div class="sf_layer_con show"  id="filterInner" style="" data-scroll="214">
+            @if(!empty($screen_list))
+            @foreach($screen_list as $v)
+                @if($v->property_name == '价格')
+                        <ul class="mod_list">
+                            <li class="super_li no_arrow">
+                                <div class="list_inner">
+                                    <div class="li_line">
+                                        <div class="big">{{ $v->property_name }}</div>
+                                        <div class="right"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="filterlayer_price">
+                                <div class="filterlayer_price_area"><input type="tel" class="filterlayer_price_area_input J_ping" id="filterPriceMin" placeholder="最低价" data-val="">
+                                    <div class="filterlayer_price_area_hyphen"></div>
+                                    <input type="tel" class="filterlayer_price_area_input J_ping" id="filterPriceMax" placeholder="最高价" data-val="">
+                                </div>
+                                <div class="filterlayer_price_choices">
+                                    @foreach($v->propertyVal as $vv)
+                                        <div class="J_ping filterlayer_price_choice" >
+                                            <div class="filterlayer_price_choice_text" data-val="{{ $vv->search_val }}">{{ $vv->searchproperty_value }}</div>
+                                            {{--<div class="filterlayer_price_choice_tips">31%选择</div>--}}
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </li>
+                        </ul>
+                    @else
+                        <ul class="mod_list">
+                            <li>
+                                <div class="list_inner li_line">
+                                    <div class="big">{{ $v->property_name }}</div>
+                                    <div class="right"><span class="words_10" style="max-width: 210px;"></span></div>
+                                </div>
+                            </li>
 
-                </div>
-            </ul>
-            <ul class="mod_list">
-                <li>
-                    <div class="list_inner li_line">
-                        <div class="big">运行内存</div>
-                        <div class="right"><span class="words_10" r-mark="3753" slen="1"
-                                                 style="max-width: 210px;"></span></div>
-                    </div>
-                </li>
-                <div class="tags_selection">
-                    <div class="J_ping option" ><a href="javascript:void 0;">2GB</a></div>
-                </div>
-            </ul>
-            <ul class="mod_list">
-                <li>
-                    <div class="list_inner li_line">
-                        <div class="big">电池容量</div>
-                        <div class="right"><span class="words_10" r-mark="3803" slen="1"
-                                                 style="max-width: 210px;"></span></div>
-                    </div>
-                </li>
-                <div class="tags_selection">
-                    <div class="J_ping option " ><a href="javascript:void 0;">5000mAh以上</a></div>
-                </div>
-            </ul>
-            <div id="filterClearBtn" class="J_ping s_btn disabled" disb="0" rd="0-9-4" report-eventparam=""
-                 report-eventid="MFilter_Reset">清除选项
+                            <div class="tags_selection">
+                                @foreach($v->propertyVal as $vv)
+                                    <div class="J_ping option " ><a href="javascript:void 0;" data-val="{{ $vv->search_val }}">{{ $vv->searchproperty_value }}</a></div>
+
+                                @endforeach
+                            </div>
+                        </ul>
+                    @endif
+            @endforeach
+            @endif
+            <div id="filterClearBtn" class="J_ping s_btn disabled">清除选项
             </div>
         </div>
         <div class="filterlayer_bottom_buttons">
@@ -524,7 +453,7 @@
 @section('script')
    <script>
        $('#filterBtn').click(function(){
-           alert('1212');
+           $('#filterInner').show();
        })
    </script>
 @endsection

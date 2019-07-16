@@ -27,6 +27,9 @@
                 $('.loginTime').text(loginTime);
                 if(loginTime==0){
                     clearInterval(time);
+                    if(!url){
+                        window.history.go(-1);
+                    }
                     window.location.href=url;
                 }
             },1000);

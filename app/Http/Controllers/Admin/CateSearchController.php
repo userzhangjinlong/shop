@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\AdminInternalException;
 use App\Exceptions\AdminInvalidRequestException;
 use App\Http\Requests\Admin\CateSearchRequest;
 use App\Http\Requests\Admin\CateSearchValRequest;
@@ -9,7 +10,9 @@ use App\Models\Category;
 use App\Models\CateSearchProperty;
 use App\Http\Controllers\Controller;
 use App\Models\CateSearchPropertyVal;
+use App\Models\Goods;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CateSearchController extends Controller
 {
@@ -44,6 +47,17 @@ class CateSearchController extends Controller
 
         $cate = (new Category())->tree();
         return view('Admin.CateSearch.store', compact('id','catesearch_info', 'cate'));
+    }
+
+    public function getGoodsAttribute(Request $request){
+        $cate_id = $request->cate_id;
+        $goods_list = (new Goods()->where('cate_id', $cate_id)->get(['id']);
+        $goods_idarr = [];
+        foreach ($goods_list as $v){
+            $goods_idarr[] = $v->id;
+        }
+
+//        $attr_list =
     }
 
     /**
@@ -88,7 +102,15 @@ class CateSearchController extends Controller
      */
     public function destory(CateSearchProperty $cateSearchProperty, $id){
         $SearchProperty = $cateSearchProperty->find($id);
-        $res = $SearchProperty->delete();
+        DB::beginTransaction();
+        try{
+            $res = $SearchProperty->delete();
+            CateSearchPropertyVal::where('searchproperty_id', $id)->delete();
+        }catch (\Exception $exception){
+            throw new AdminInternalException($exception->getMessage());
+        }
+
+        DB::commit();
         if ($res){
             return view('Admin.Public.success')->with([
                 'message'=>'删除成功！',
@@ -101,14 +123,34 @@ class CateSearchController extends Controller
         }
     }
 
-    public function storeVal(CateSearchProperty $cateSearchProperty,$search_id){
+    /**
+     * @param CateSearchProperty $cateSearchProperty
+     * @param $search_id
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function storeVal(CateSearchProperty $cateSearchProperty,$search_id,$id=''){
 
         //获取筛选属性信息
         $search_info = $cateSearchProperty->where('id', $search_id)->first();
 
-        return view('Admin.CateSearch.storeVal', compact('search_id', 'search_info'));
+        //获取属性值列表
+        $list = CateSearchPropertyVal::where('searchproperty_id', $search_id)->get(['id', 'searchproperty_value', 'search_val', 'sort']);
+
+        if (!empty($id)){
+            $data = CateSearchPropertyVal::where('id', $id)->first();
+        }else{
+            $data = [];
+        }
+
+        return view('Admin.CateSearch.storeVal', compact('search_id', 'search_info', 'list', 'data', 'id'));
     }
 
+    /**
+     * @param CateSearchValRequest $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws AdminInvalidRequestException
+     */
     public function createVal(CateSearchValRequest $request){
         $add = [
             'cate_id'               =>  intval($request->input('cate_id')),
@@ -138,6 +180,26 @@ class CateSearchController extends Controller
             throw new AdminInvalidRequestException('操作失败');
         }
 
+    }
+
+    /**
+     * @param CateSearchPropertyVal $cateSearchPropertyVal
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function destoryVal(CateSearchPropertyVal $cateSearchPropertyVal, $id){
+        $SearchProperty = $cateSearchPropertyVal->find($id);
+        $res = $SearchProperty->delete();
+        if ($res){
+            return view('Admin.Public.success')->with([
+                'message'=>'删除成功！',
+                'url' =>'',
+                'jumpTime'=>2,
+                'urlname' => '返回上一页'
+            ]);
+        }else{
+            return back()->withErrors(['删除失败！'])->withInput();
+        }
     }
 
 }
